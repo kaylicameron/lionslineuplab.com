@@ -1,0 +1,40 @@
+# Contact Information for Domain Registration
+
+registrantContact:
+  email: "fortiscontego@gmail.com"
+  phoneNumber: "+1.6362930127"
+  postalAddress:
+    regionCode: "US"
+    postalCode: "63368"
+    administrativeArea: "MO"
+    locality: "O'Fallon"
+    addressLines:
+      - "3 Tanyard Ct"
+    recipients:
+      - "Dale Cameron"
+
+adminContact:
+  email: "fortiscontego@gmail.com"
+  phoneNumber: "+1.6362930127"
+  postalAddress:
+    regionCode: "US"
+    postalCode: "63368"
+    administrativeArea: "MO"
+    locality: "O'Fallon"
+    addressLines:
+      - "3 Tanyard Ct"
+    recipients:
+      - "Dale Cameron"
+
+technicalContact:
+  email: "fortiscontego@gmail.com"
+  phoneNumber: "+1.6362930127"
+  postalAddress:
+    regionCode: "US"
+    postalCode: "63368"
+    administrativeArea: "MO"
+    locality: "O'Fallon"
+    addressLines:
+      - "3 Tanyard Ct"
+    recipients:
+      - "Dale Cameron"
