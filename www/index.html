@@ -1,76 +1,1382 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Kayli</title>
+    <title>Lions Lineup Lab | Detroit Lions Win Probability & Analytics Engine</title>
+    <meta name="description" content="Detroit Lions predictive analytics, real-time win probability simulation, and advanced NFL metrics dashboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --honolulu-blue: #0076B6;
+            --honolulu-bright: #0094e6;
+            --honolulu-dark: #004d77;
+            --honolulu-glow: rgba(0, 118, 182, 0.4);
+            --silver: #B0B7BC;
+            --silver-light: #E2E8F0;
+            --silver-dark: #64748B;
+            --bg-void: #060A0E;
+            --bg-card: #0D141E;
+            --bg-card-hover: #131E2C;
+            --bg-glass: rgba(13, 20, 30, 0.75);
+            --border-glass: rgba(176, 183, 188, 0.15);
+            --border-active: rgba(0, 118, 182, 0.6);
+            --text-main: #FFFFFF;
+            --text-sub: #94A3B8;
+            --text-muted: #64748B;
+            --accent-green: #10B981;
+            --accent-green-glow: rgba(16, 185, 129, 0.3);
+            --accent-amber: #F59E0B;
+            --accent-red: #EF4444;
+            --font-display: 'Barlow Condensed', -apple-system, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 118, 182, 0.22) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(0, 118, 182, 0.12) 0%, transparent 50%),
+                linear-gradient(to bottom, rgba(6, 10, 14, 0.8), var(--bg-void)),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 80px),
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 80px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Top Bar */
+        .top-stripe {
+            height: 4px;
+            background: linear-gradient(90deg, #0076B6, #B0B7BC, #FFFFFF, #B0B7BC, #0076B6);
+            box-shadow: 0 0 15px var(--honolulu-glow);
+        }
+
+        /* Navigation Header */
+        header {
+            padding: 24px 0 20px;
+            border-bottom: 1px solid var(--border-glass);
+            background: rgba(6, 10, 14, 0.85);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand-cluster {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-emblem {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--honolulu-blue), var(--honolulu-dark));
+            border: 2px solid var(--silver);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 18px var(--honolulu-glow);
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            line-height: 1;
+            background: linear-gradient(90deg, #FFFFFF 0%, #E2E8F0 50%, var(--silver) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text .tagline {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 3px;
+        }
+
+        .brand-text .tagline span.highlight {
+            color: var(--honolulu-bright);
+            font-weight: 600;
+        }
+
+        .nav-tags {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .pill-badge {
+            background: rgba(0, 118, 182, 0.15);
+            border: 1px solid var(--border-active);
+            color: var(--silver-light);
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pill-badge .dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-green-glow);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin: 28px 0 32px;
+            border-bottom: 1px solid var(--border-glass);
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 18px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab-btn.active {
+            color: var(--text-main);
+            background: rgba(0, 118, 182, 0.12);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--honolulu-blue);
+            box-shadow: 0 0 10px var(--honolulu-glow);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Tab Panels */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(0, 118, 182, 0.2) 0%, rgba(13, 20, 30, 0.8) 100%);
+            border: 1px solid var(--border-glass);
+            border-left: 4px solid var(--honolulu-blue);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .hero-headline h2 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .hero-headline p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            max-width: 640px;
+            margin-top: 6px;
+        }
+
+        .quick-presets {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .preset-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--silver-light);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--honolulu-blue);
+            background: rgba(0, 118, 182, 0.15);
+            color: #FFFFFF;
+        }
+
+        /* Simulator Grid */
+        .engine-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .engine-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 28px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+
+        .card-title svg {
+            color: var(--honolulu-blue);
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--silver-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .val-badge {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--honolulu-bright);
+            background: rgba(0, 118, 182, 0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 118, 182, 0.3);
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            background: rgba(6, 10, 14, 0.7);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: border-color 0.2s ease;
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--honolulu-blue);
+            box-shadow: 0 0 10px var(--honolulu-glow);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            height: 6px;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--silver-light);
+            border: 2px solid var(--honolulu-blue);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--honolulu-glow);
+            transition: transform 0.15s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        /* Dual Input Row */
+        .dual-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Result Display Card */
+        .result-stage {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
+            padding: 20px 0;
+        }
+
+        .meter-container {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            margin-bottom: 24px;
+        }
+
+        .meter-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .meter-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 16;
+        }
+
+        .meter-progress {
+            fill: none;
+            stroke: url(#honolulu-gradient);
+            stroke-width: 16;
+            stroke-linecap: round;
+            stroke-dasharray: 628;
+            stroke-dashoffset: 200;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s ease;
+            filter: drop-shadow(0 0 12px var(--honolulu-glow));
+        }
+
+        .meter-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
         }
 
-        h1 {
-            font-size: 3rem;
-            color: #2c3e50;
-            margin-bottom: 20px;
+        .meter-percent {
+            font-family: var(--font-display);
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -1px;
+            color: #FFFFFF;
         }
 
-        .cat-icon {
-            font-size: 5rem;
-            animation: wave 2s infinite;
-            display: inline-block;
-            transform-origin: 70% 70%;
+        .meter-sublabel {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--silver);
+            margin-top: 4px;
         }
 
-        @keyframes wave {
-            0% {
-                transform: rotate(0deg);
-            }
+        .verdict-tag {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 6px 20px;
+            border-radius: 999px;
+            background: rgba(0, 118, 182, 0.2);
+            border: 1px solid var(--honolulu-blue);
+            color: #FFFFFF;
+            margin-bottom: 24px;
+        }
 
-            10% {
-                transform: rotate(14deg);
-            }
+        /* Model Breakdown Table */
+        .breakdown-list {
+            width: 100%;
+            border-top: 1px solid var(--border-glass);
+            padding-top: 20px;
+        }
 
-            20% {
-                transform: rotate(-8deg);
-            }
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 0.92rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+        }
 
-            30% {
-                transform: rotate(14deg);
-            }
+        .breakdown-row:last-child {
+            border-bottom: none;
+        }
 
-            40% {
-                transform: rotate(-4deg);
-            }
+        .breakdown-row .metric-name {
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-            50% {
-                transform: rotate(10deg);
-            }
+        .breakdown-row .metric-calc {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--text-main);
+        }
 
-            60% {
-                transform: rotate(0deg);
-            }
+        /* Stat Cards Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
 
-            100% {
-                transform: rotate(0deg);
-            }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 22px;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--honolulu-blue);
+            opacity: 0.8;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-active);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 118, 182, 0.2);
+        }
+
+        .stat-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--silver);
+        }
+
+        .stat-rank {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1;
+            color: #FFFFFF;
+            margin-bottom: 6px;
+        }
+
+        .stat-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Player Performance Table */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border-glass);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.92rem;
+        }
+
+        th {
+            background: rgba(0, 118, 182, 0.18);
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--silver-light);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--silver-light);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .player-name {
+            font-weight: 700;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .player-pos {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--honolulu-bright);
+            background: rgba(0, 118, 182, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .data-mono {
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+
+        /* Theory & Models Cards */
+        .theory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .theory-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 24px;
+            border-top: 3px solid var(--silver);
+        }
+
+        .theory-card.honolulu {
+            border-top-color: var(--honolulu-blue);
+        }
+
+        .theory-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theory-card p {
+            font-size: 0.92rem;
+            color: var(--text-sub);
+            margin-bottom: 14px;
+        }
+
+        .formula-box {
+            background: rgba(6, 10, 14, 0.85);
+            border: 1px solid rgba(0, 118, 182, 0.3);
+            border-radius: 6px;
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            color: var(--honolulu-bright);
+            margin-bottom: 12px;
+            overflow-x: auto;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-glass);
+            background: rgba(6, 10, 14, 0.95);
+            padding: 36px 0;
+            margin-top: 60px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-brand span {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--silver-light);
+            letter-spacing: 1px;
         }
     </style>
 </head>
-
 <body>
-    <h1>Hello Kayli</h1>
-    <div class="cat-icon">👋🐱</div>
-</body>
+    <div class="top-stripe"></div>
 
+    <!-- Navigation Header -->
+    <header>
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="brand-cluster">
+                    <div class="logo-emblem">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <h1>Lions Lineup Lab</h1>
+                        <div class="tagline">
+                            <span class="highlight">Detroit Lions</span> • Advanced Predictive Analytics & Stat Engine
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-tags">
+                    <div class="pill-badge">
+                        <div class="dot"></div>
+                        <span>Live Stat Engine</span>
+                    </div>
+                    <div class="pill-badge" style="border-color: var(--border-glass);">
+                        <span>One Pride</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Navigation Tabs -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('simulator')">Win Probability Simulator</button>
+            <button class="tab-btn" onclick="switchTab('metrics')">Team Advanced Metrics</button>
+            <button class="tab-btn" onclick="switchTab('players')">Next Gen Player Stats</button>
+            <button class="tab-btn" onclick="switchTab('methodology')">Statistical Models & Theory</button>
+        </nav>
+
+        <!-- TAB 1: SIMULATOR -->
+        <section id="simulator" class="tab-pane active">
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <div class="hero-headline">
+                    <h2>Game Outcome Probability Engine</h2>
+                    <p>Simulate Detroit Lions matchup outcomes based on Expected Points Added (EPA), Pythagorean expectation, turnover regression, and trench win rates.</p>
+                </div>
+                <div class="quick-presets">
+                    <button class="preset-btn" onclick="applyPreset('packers')">
+                        <span>🏈</span> vs Packers (Ford Field)
+                    </button>
+                    <button class="preset-btn" onclick="applyPreset('niners')">
+                        <span>⚡</span> vs 49ers (NFC Clash)
+                    </button>
+                    <button class="preset-btn" onclick="applyPreset('chiefs')">
+                        <span>🔥</span> vs Chiefs (High Scoring)
+                    </button>
+                    <button class="preset-btn" onclick="applyPreset('reset')">
+                        <span>↺</span> Reset Baseline
+                    </button>
+                </div>
+            </div>
+
+            <div class="engine-grid">
+                <!-- Inputs Glass Card -->
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                            <span>Matchup Parameters</span>
+                        </div>
+                        <span class="pill-badge" style="font-size: 0.75rem;">Model Inputs</span>
+                    </div>
+
+                    <!-- Opponent & Venue -->
+                    <div class="dual-inputs">
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="opponentSelect">Opponent</label>
+                            </div>
+                            <select id="opponentSelect" onchange="calculateProbability()">
+                                <option value="GB">Green Bay Packers (NFC North)</option>
+                                <option value="MIN">Minnesota Vikings (NFC North)</option>
+                                <option value="CHI">Chicago Bears (NFC North)</option>
+                                <option value="SF" selected>San Francisco 49ers</option>
+                                <option value="KC">Kansas City Chiefs</option>
+                                <option value="BUF">Buffalo Bills</option>
+                                <option value="DAL">Dallas Cowboys</option>
+                                <option value="PHI">Philadelphia Eagles</option>
+                                <option value="LAR">Los Angeles Rams</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="venueSelect">Venue / Conditions</label>
+                            </div>
+                            <select id="venueSelect" onchange="calculateProbability()">
+                                <option value="home_dome" selected>Ford Field (Home Dome)</option>
+                                <option value="away_dome">Away Dome / Retractable</option>
+                                <option value="away_outdoor_fair">Away Outdoor (Fair Weather)</option>
+                                <option value="away_outdoor_wind">Away Outdoor (High Wind / Cold)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Projected Points (Pythagorean Expectation) -->
+                    <div class="dual-inputs">
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="lionsPoints">Lions Projected Pts</label>
+                                <span class="val-badge" id="lionsPointsVal">28</span>
+                            </div>
+                            <input type="range" id="lionsPoints" min="10" max="45" value="28" oninput="updateVal('lionsPoints', this.value); calculateProbability();">
+                        </div>
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="oppPoints">Opponent Projected Pts</label>
+                                <span class="val-badge" id="oppPointsVal">23</span>
+                            </div>
+                            <input type="range" id="oppPoints" min="10" max="45" value="23" oninput="updateVal('oppPoints', this.value); calculateProbability();">
+                        </div>
+                    </div>
+
+                    <!-- Offensive EPA / Play -->
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label for="offEpa">Lions Offensive EPA/Play</label>
+                            <span class="val-badge" id="offEpaVal">+0.14</span>
+                        </div>
+                        <input type="range" id="offEpa" min="-0.20" max="0.35" step="0.01" value="0.14" oninput="updateVal('offEpa', (this.value >= 0 ? '+' : '') + this.value); calculateProbability();">
+                    </div>
+
+                    <!-- Defensive EPA Allowed -->
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label for="defEpa">Opponent Defensive EPA/Play Allowed</label>
+                            <span class="val-badge" id="defEpaVal">+0.02</span>
+                        </div>
+                        <input type="range" id="defEpa" min="-0.25" max="0.25" step="0.01" value="0.02" oninput="updateVal('defEpa', (this.value >= 0 ? '+' : '') + this.value); calculateProbability();">
+                    </div>
+
+                    <!-- Turnovers & Trenches -->
+                    <div class="dual-inputs">
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="turnovers">Turnover Margin</label>
+                                <span class="val-badge" id="turnoversVal">+1</span>
+                            </div>
+                            <input type="range" id="turnovers" min="-3" max="3" step="1" value="1" oninput="updateVal('turnovers', (this.value > 0 ? '+' : '') + this.value); calculateProbability();">
+                        </div>
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="trenchAdv">Trench Advantage (PBWR)</label>
+                                <span class="val-badge" id="trenchAdvVal">+8%</span>
+                            </div>
+                            <input type="range" id="trenchAdv" min="-15" max="15" step="1" value="8" oninput="updateVal('trenchAdv', (this.value > 0 ? '+' : '') + this.value + '%'); calculateProbability();">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Probability Output Glass Card -->
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                            <span>Model Forecast</span>
+                        </div>
+                        <span class="val-badge" id="spreadBadge">LIONS -4.5</span>
+                    </div>
+
+                    <div class="result-stage">
+                        <div class="meter-container">
+                            <svg class="meter-svg" viewBox="0 0 220 220">
+                                <defs>
+                                    <linearGradient id="honolulu-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#0076B6"/>
+                                        <stop offset="50%" stop-color="#0094e6"/>
+                                        <stop offset="100%" stop-color="#B0B7BC"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle class="meter-bg" cx="110" cy="110" r="95"></circle>
+                                <circle class="meter-progress" id="probabilityRing" cx="110" cy="110" r="95"></circle>
+                            </svg>
+                            <div class="meter-inner">
+                                <div class="meter-percent" id="winPercentage">67.8%</div>
+                                <div class="meter-sublabel">Win Probability</div>
+                            </div>
+                        </div>
+
+                        <div class="verdict-tag" id="verdictText">LIONS SOLID FAVORITE</div>
+
+                        <div class="breakdown-list">
+                            <div class="breakdown-row">
+                                <span class="metric-name">Pythagorean Expectation (Exponent 2.37)</span>
+                                <span class="metric-calc" id="pythagoreanVal">61.2%</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="metric-name">EPA Differential Impact</span>
+                                <span class="metric-calc" id="epaImpactVal">+4.8%</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="metric-name">Ford Field Dome & Home Field Advantage</span>
+                                <span class="metric-calc" id="venueImpactVal">+3.5%</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="metric-name">Turnover Regression Adjustment</span>
+                                <span class="metric-calc" id="turnoverImpactVal">+4.2%</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="metric-name">Projected Game Total</span>
+                                <span class="metric-calc" id="totalPointsVal">51.0 pts (O/U)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: METRICS -->
+        <section id="metrics" class="tab-pane">
+            <div class="hero-banner">
+                <div class="hero-headline">
+                    <h2>Advanced Team Analytics</h2>
+                    <p>Core statistical indicators measuring efficiency, trench dominance, and drive conversion rates relative to the NFL baseline.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-label">Offensive EPA / Play</span>
+                        <span class="stat-rank">#2 NFL</span>
+                    </div>
+                    <div class="stat-value">+0.142</div>
+                    <div class="stat-desc">Expected Points Added per offensive snap. NFL top-tier efficiency.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-label">Total DVOA</span>
+                        <span class="stat-rank">#3 NFL</span>
+                    </div>
+                    <div class="stat-value">+24.6%</div>
+                    <div class="stat-desc">Defense-adjusted Value Over Average across all game situations.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-label">Pass Block Win Rate</span>
+                        <span class="stat-rank">#1 NFL</span>
+                    </div>
+                    <div class="stat-value">69.4%</div>
+                    <div class="stat-desc">Offensive line holding blocks for 2.5+ seconds on pass plays.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-label">Red Zone TD Rate</span>
+                        <span class="stat-rank">#2 NFL</span>
+                    </div>
+                    <div class="stat-value">71.8%</div>
+                    <div class="stat-desc">Percentage of red zone visits resulting in touchdowns.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-label">Early Down Success Rate</span>
+                        <span class="stat-rank">#4 NFL</span>
+                    </div>
+                    <div class="stat-value">52.3%</div>
+                    <div class="stat-desc">Percentage of 1st and 2nd downs gaining required yardage markers.</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-meta">
+                        <span class="stat-label">Pressure Rate Forced</span>
+                        <span class="stat-rank">#5 NFL</span>
+                    </div>
+                    <div class="stat-value">37.1%</div>
+                    <div class="stat-desc">Defensive front pressure generated on opponent dropbacks.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: PLAYERS -->
+        <section id="players" class="tab-pane">
+            <div class="hero-banner">
+                <div class="hero-headline">
+                    <h2>Next Gen Stats & Player Modeling</h2>
+                    <p>Positional tracking metrics isolating individual talent from scheme and situational factors.</p>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-header">
+                    <div class="card-title">Key Unit Personnel & Predictive Metrics</div>
+                    <span class="pill-badge">Tracking Data</span>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Player / Unit</th>
+                                <th>Position</th>
+                                <th>Primary Metric</th>
+                                <th>Rating / Stat</th>
+                                <th>Percentile</th>
+                                <th>Model Predictive Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="player-name">Jared Goff</div>
+                                </td>
+                                <td><span class="player-pos">QB</span></td>
+                                <td>CPOE (Comp % Over Expected)</td>
+                                <td class="data-mono">+4.6%</td>
+                                <td><span class="stat-rank">92nd</span></td>
+                                <td>High stability in clean pocket; key driver of EPA/Play.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-name">Jahmyr Gibbs</div>
+                                </td>
+                                <td><span class="player-pos">RB</span></td>
+                                <td>RYOE (Rushing Yards Over Expected)</td>
+                                <td class="data-mono">+0.82 / att</td>
+                                <td><span class="stat-rank">96th</span></td>
+                                <td>Explosive play generator; elite yards after contact.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-name">Amon-Ra St. Brown</div>
+                                </td>
+                                <td><span class="player-pos">WR</span></td>
+                                <td>YPRR (Yards Per Route Run)</td>
+                                <td class="data-mono">2.54</td>
+                                <td><span class="stat-rank">95th</span></td>
+                                <td>Most predictive metric for sustained receiver efficiency.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-name">Aidan Hutchinson</div>
+                                </td>
+                                <td><span class="player-pos">EDGE</span></td>
+                                <td>Pass Rush Win Rate (PRWR)</td>
+                                <td class="data-mono">26.8%</td>
+                                <td><span class="stat-rank">98th</span></td>
+                                <td>Pressure rate is significantly stickier year-over-year than sacks.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-name">Penei Sewell</div>
+                                </td>
+                                <td><span class="player-pos">OT</span></td>
+                                <td>Run Stop / Block Win Rate</td>
+                                <td class="data-mono">94.2%</td>
+                                <td><span class="stat-rank">99th</span></td>
+                                <td>Anchor of offensive line; sets edge for outside zone runs.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: METHODOLOGY -->
+        <section id="methodology" class="tab-pane">
+            <div class="hero-banner">
+                <div class="hero-headline">
+                    <h2>Statistical Modeling & Predictive Algorithms</h2>
+                    <p>The mathematical and machine learning foundation driving the LionsLineupLab forecast engine.</p>
+                </div>
+            </div>
+
+            <div class="theory-grid">
+                <div class="theory-card honolulu">
+                    <h3>
+                        <span>📐</span> Pythagorean Expectation
+                    </h3>
+                    <p>Adapted for the NFL, estimates a team's true fundamental winning probability from scoring differentials rather than noisy win-loss records.</p>
+                    <div class="formula-box">
+                        Win % = (Points Scored)^2.37 / ((Points Scored)^2.37 + (Points Allowed)^2.37)
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Teams significantly exceeding their Pythagorean win total frequently regress toward their fundamental expectation.</p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>
+                        <span>🌲</span> Gradient Boosting (XGBoost)
+                    </h3>
+                    <p>Ensemble tree-based algorithms excel at modeling non-linear interactions between variables like weather, rest days, and scheme mismatches without overfitting.</p>
+                    <div class="formula-box">
+                        f(x) = sum(γ_m * h_m(x)) + λ * Ω(T)
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Handles categorical team features, stadium types, and situational down-and-distance context effectively.</p>
+                </div>
+
+                <div class="theory-card honolulu">
+                    <h3>
+                        <span>⚡</span> Expected Points Added (EPA)
+                    </h3>
+                    <p>Quantifies the point value of every individual play relative to historical field position, down, distance, and time remaining.</p>
+                    <div class="formula-box">
+                        EPA = EP_(t+1) - EP_t
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">EPA per play is the gold standard for comparing offense and quarterback efficiency independent of volume.</p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>
+                        <span>🎲</span> Turnover Luck Regression
+                    </h3>
+                    <p>Fumble recoveries occur at approximately a 50% rate over large samples. Regression algorithms strip out lucky bounces to isolate true defensive takeaway skill.</p>
+                    <div class="formula-box">
+                        True_TO = Forced_Fumbles * 0.50 + Adjusted_INTs
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Teams that win primarily through outlier turnover margins regress toward the mean in future contests.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="logo-emblem" style="width: 36px; height: 36px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </div>
+                <div>
+                    <span>LIONS LINEUP LAB</span>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">lionslineuplab.com • Detroit Lions Statistical Analytics Engine</div>
+                </div>
+            </div>
+            <div>
+                Hosted on <strong style="color: var(--silver-light);">Google Cloud Run</strong> • One Pride
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Preset opponents data
+        const opponents = {
+            'GB': { name: 'Green Bay Packers', baseLionsPts: 27, oppPts: 22, offEpa: 0.12, defEpa: -0.01, trenchAdv: 6 },
+            'MIN': { name: 'Minnesota Vikings', baseLionsPts: 28, oppPts: 24, offEpa: 0.14, defEpa: -0.04, trenchAdv: 7 },
+            'CHI': { name: 'Chicago Bears', baseLionsPts: 30, oppPts: 20, offEpa: 0.18, defEpa: 0.05, trenchAdv: 10 },
+            'SF': { name: 'San Francisco 49ers', baseLionsPts: 26, oppPts: 24, offEpa: 0.10, defEpa: -0.06, trenchAdv: 4 },
+            'KC': { name: 'Kansas City Chiefs', baseLionsPts: 28, oppPts: 27, offEpa: 0.15, defEpa: -0.08, trenchAdv: 5 },
+            'BUF': { name: 'Buffalo Bills', baseLionsPts: 27, oppPts: 26, offEpa: 0.13, defEpa: -0.03, trenchAdv: 6 },
+            'DAL': { name: 'Dallas Cowboys', baseLionsPts: 31, oppPts: 23, offEpa: 0.16, defEpa: 0.02, trenchAdv: 8 },
+            'PHI': { name: 'Philadelphia Eagles', baseLionsPts: 26, oppPts: 25, offEpa: 0.11, defEpa: -0.05, trenchAdv: 3 },
+            'LAR': { name: 'Los Angeles Rams', baseLionsPts: 28, oppPts: 23, offEpa: 0.14, defEpa: 0.01, trenchAdv: 7 }
+        };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            const targetPane = document.getElementById(tabId);
+            if (targetPane) targetPane.classList.add('active');
+            
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        function updateVal(id, val) {
+            const badge = document.getElementById(id + 'Val');
+            if (badge) badge.innerText = val;
+        }
+
+        function applyPreset(type) {
+            if (type === 'packers') {
+                document.getElementById('opponentSelect').value = 'GB';
+                document.getElementById('venueSelect').value = 'home_dome';
+                setInputs(28, 21, 0.15, -0.02, 1, 8);
+            } else if (type === 'niners') {
+                document.getElementById('opponentSelect').value = 'SF';
+                document.getElementById('venueSelect').value = 'away_outdoor_fair';
+                setInputs(27, 24, 0.11, -0.06, 0, 4);
+            } else if (type === 'chiefs') {
+                document.getElementById('opponentSelect').value = 'KC';
+                document.getElementById('venueSelect').value = 'home_dome';
+                setInputs(34, 30, 0.22, 0.02, 1, 7);
+            } else if (type === 'reset') {
+                document.getElementById('opponentSelect').value = 'SF';
+                document.getElementById('venueSelect').value = 'home_dome';
+                setInputs(28, 23, 0.14, 0.02, 1, 8);
+            }
+            calculateProbability();
+        }
+
+        function setInputs(lionsPts, oppPts, offEpa, defEpa, toMargin, trench) {
+            document.getElementById('lionsPoints').value = lionsPts;
+            updateVal('lionsPoints', lionsPts);
+
+            document.getElementById('oppPoints').value = oppPts;
+            updateVal('oppPoints', oppPts);
+
+            document.getElementById('offEpa').value = offEpa;
+            updateVal('offEpa', (offEpa >= 0 ? '+' : '') + offEpa);
+
+            document.getElementById('defEpa').value = defEpa;
+            updateVal('defEpa', (defEpa >= 0 ? '+' : '') + defEpa);
+
+            document.getElementById('turnovers').value = toMargin;
+            updateVal('turnovers', (toMargin > 0 ? '+' : '') + toMargin);
+
+            document.getElementById('trenchAdv').value = trench;
+            updateVal('trenchAdv', (trench > 0 ? '+' : '') + trench + '%');
+        }
+
+        function calculateProbability() {
+            const lionsPts = parseFloat(document.getElementById('lionsPoints').value) || 28;
+            const oppPts = parseFloat(document.getElementById('oppPoints').value) || 23;
+            const offEpa = parseFloat(document.getElementById('offEpa').value) || 0.14;
+            const defEpa = parseFloat(document.getElementById('defEpa').value) || 0.02;
+            const toMargin = parseFloat(document.getElementById('turnovers').value) || 1;
+            const trenchAdv = parseFloat(document.getElementById('trenchAdv').value) || 8;
+            const venue = document.getElementById('venueSelect').value;
+
+            // 1. Pythagorean Expectation: PS^2.37 / (PS^2.37 + PA^2.37)
+            const exp = 2.37;
+            const psExp = Math.pow(Math.max(1, lionsPts), exp);
+            const paExp = Math.pow(Math.max(1, oppPts), exp);
+            const pythagorean = (psExp / (psExp + paExp)) * 100;
+
+            // 2. EPA Efficiency Impact
+            // Net EPA advantage: Lions offense vs opponent defense
+            const netEpa = offEpa - defEpa;
+            const epaAdjustment = netEpa * 28; // scale factor
+
+            // 3. Venue / Dome factor
+            let venueAdjustment = 0;
+            if (venue === 'home_dome') {
+                venueAdjustment = 3.6; // Ford Field noise + dome passing climate
+            } else if (venue === 'away_dome') {
+                venueAdjustment = 0.5;
+            } else if (venue === 'away_outdoor_fair') {
+                venueAdjustment = -1.8;
+            } else if (venue === 'away_outdoor_wind') {
+                venueAdjustment = -3.8;
+            }
+
+            // 4. Turnover regression impact
+            const toAdjustment = toMargin * 4.2;
+
+            // 5. Trench advantage
+            const trenchAdjustment = (trenchAdv / 10) * 1.5;
+
+            // Blended Probability
+            let finalProb = (pythagorean * 0.55) + ((50 + epaAdjustment + toAdjustment + venueAdjustment + trenchAdjustment) * 0.45);
+            finalProb = Math.min(96, Math.max(4, finalProb));
+
+            // Spread & Total calculation
+            const spread = (oppPts - lionsPts) - ((finalProb - 50) * 0.18);
+            const total = lionsPts + oppPts;
+
+            // Update UI elements
+            const probFormatted = finalProb.toFixed(1) + '%';
+            document.getElementById('winPercentage').innerText = probFormatted;
+
+            // SVG Circle Progress (circumference 2 * pi * 95 = ~597)
+            const circumference = 2 * Math.PI * 95;
+            const strokeOffset = circumference - (circumference * (finalProb / 100));
+            const ring = document.getElementById('probabilityRing');
+            if (ring) {
+                ring.style.strokeDasharray = circumference;
+                ring.style.strokeDashoffset = strokeOffset;
+            }
+
+            // Spread badge
+            const spreadFormatted = spread < 0 ? `LIONS ${spread.toFixed(1)}` : (spread > 0 ? `OPPONENT -${spread.toFixed(1)}` : 'PICK\'EM');
+            document.getElementById('spreadBadge').innerText = spreadFormatted;
+
+            // Verdict tag
+            const verdictEl = document.getElementById('verdictText');
+            if (finalProb >= 72) {
+                verdictEl.innerText = 'LIONS DOMINANT FAVORITE';
+                verdictEl.style.borderColor = 'var(--accent-green)';
+                verdictEl.style.color = '#FFFFFF';
+            } else if (finalProb >= 58) {
+                verdictEl.innerText = 'LIONS SOLID FAVORITE';
+                verdictEl.style.borderColor = 'var(--honolulu-blue)';
+                verdictEl.style.color = '#FFFFFF';
+            } else if (finalProb >= 46) {
+                verdictEl.innerText = 'TOSS-UP MATCHUP';
+                verdictEl.style.borderColor = 'var(--silver)';
+                verdictEl.style.color = '#FFFFFF';
+            } else {
+                verdictEl.innerText = 'LIONS UNDERDOG';
+                verdictEl.style.borderColor = 'var(--accent-red)';
+                verdictEl.style.color = '#FFFFFF';
+            }
+
+            // Detailed breakdowns
+            document.getElementById('pythagoreanVal').innerText = pythagorean.toFixed(1) + '%';
+            document.getElementById('epaImpactVal').innerText = (epaAdjustment >= 0 ? '+' : '') + epaAdjustment.toFixed(1) + '%';
+            document.getElementById('venueImpactVal').innerText = (venueAdjustment >= 0 ? '+' : '') + venueAdjustment.toFixed(1) + '%';
+            document.getElementById('turnoverImpactVal').innerText = (toAdjustment >= 0 ? '+' : '') + toAdjustment.toFixed(1) + '%';
+            document.getElementById('totalPointsVal').innerText = total.toFixed(1) + ' pts (O/U)';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateProbability();
+        });
+    </script>
+</body>
 </html>
