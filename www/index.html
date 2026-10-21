@@ -1136,6 +1136,890 @@
             color: var(--silver-light);
             letter-spacing: 1px;
         }
+
+        /* ---------------------------------------------------- */
+        /* STARTING LINEUP LAB & DEPTH CHART (DRAG & DROP)      */
+        /* ---------------------------------------------------- */
+        .nav-new-pill {
+            background: linear-gradient(135deg, var(--honolulu-bright), #00d2ff);
+            color: #06090D;
+            font-family: var(--font-display);
+            font-size: 0.68rem;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            margin-left: 6px;
+            box-shadow: 0 0 10px rgba(0, 153, 238, 0.5);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(0.97); }
+        }
+
+        .lineup-builder-section {
+            margin-top: 36px;
+            position: relative;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 30px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        .section-highlight {
+            border-color: var(--honolulu-bright) !important;
+            box-shadow: 0 0 35px var(--honolulu-glow) !important;
+            animation: highlightPulse 1.8s ease;
+        }
+
+        @keyframes highlightPulse {
+            0% { box-shadow: 0 0 45px rgba(0, 153, 238, 0.8); }
+            100% { box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45); }
+        }
+
+        .lineup-header-cluster {
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 20px;
+        }
+
+        .lineup-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .lineup-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .lineup-desc {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            max-width: 900px;
+            line-height: 1.55;
+            margin-bottom: 18px;
+        }
+
+        .lineup-presets {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding-top: 6px;
+        }
+
+        .presets-label {
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: var(--silver-dark);
+            letter-spacing: 1px;
+            margin-right: 4px;
+        }
+
+        .lineup-preset-btn {
+            background: rgba(13, 20, 30, 0.85);
+            border: 1px solid var(--border-glass);
+            color: var(--silver-light);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lineup-preset-btn:hover {
+            border-color: var(--honolulu-bright);
+            background: rgba(0, 118, 182, 0.18);
+            color: #FFFFFF;
+            transform: translateY(-1px);
+        }
+
+        .lineup-preset-btn.active {
+            border-color: var(--honolulu-bright);
+            background: rgba(0, 118, 182, 0.25);
+            color: #FFFFFF;
+            box-shadow: 0 0 12px var(--honolulu-glow);
+        }
+
+        /* Lineup HUD Grid */
+        .lineup-hud-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .lineup-hud-card {
+            background: rgba(6, 10, 15, 0.7);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .lineup-hud-card:hover {
+            border-color: rgba(0, 118, 182, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .lineup-hud-card.highlight-card {
+            background: linear-gradient(135deg, rgba(0, 118, 182, 0.15), rgba(16, 185, 129, 0.1));
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15);
+        }
+
+        .hud-label {
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--silver-dark);
+            letter-spacing: 0.8px;
+            margin-bottom: 4px;
+        }
+
+        .hud-val {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+
+        .hud-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Main 2-Column Grid Layout */
+        .lineup-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 390px;
+            gap: 22px;
+            align-items: start;
+        }
+
+        /* Turf Depth Chart Board */
+        .turf-depth-chart-wrapper {
+            background: rgba(6, 10, 14, 0.8);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .turf-header-bar {
+            background: rgba(13, 20, 30, 0.95);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .turf-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--silver-light);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .lineup-view-toggle {
+            display: flex;
+            background: rgba(6, 10, 14, 0.7);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .view-toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--silver);
+            padding: 5px 12px;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .view-toggle-btn.active {
+            background: var(--honolulu-blue);
+            color: #FFFFFF;
+            box-shadow: 0 2px 6px rgba(0, 118, 182, 0.4);
+        }
+
+        .turf-depth-chart {
+            background-color: var(--turf-dark);
+            background-image: 
+                radial-gradient(ellipse at 50% 20%, rgba(0, 118, 182, 0.12), transparent 70%),
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px);
+            padding: 22px;
+            position: relative;
+            min-height: 600px;
+            border-top: 2px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .turf-midfield-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 240px;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .unit-section {
+            position: relative;
+            z-index: 2;
+        }
+
+        .unit-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .unit-badge {
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, var(--honolulu-blue), var(--honolulu-dark));
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 3px 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .unit-subtitle {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--silver);
+            letter-spacing: 0.5px;
+        }
+
+        .formation-row-label {
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.45);
+            letter-spacing: 1px;
+            margin: 12px 0 6px 2px;
+            text-transform: uppercase;
+        }
+
+        .formation-row {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .trench-row {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .backfield-row {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .receivers-row {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .dline-row {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .lb-row {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .secondary-row {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        /* Starting Lineup Slot */
+        .lineup-slot {
+            background: rgba(6, 12, 18, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 8px 10px;
+            min-height: 96px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .lineup-slot:hover {
+            border-color: rgba(0, 153, 238, 0.6);
+            background: rgba(10, 18, 28, 0.9);
+            box-shadow: 0 4px 14px rgba(0, 118, 182, 0.25);
+        }
+
+        .lineup-slot.drag-target-hover {
+            border: 2px dashed var(--honolulu-bright) !important;
+            background: rgba(0, 118, 182, 0.28) !important;
+            box-shadow: 0 0 22px var(--honolulu-glow) !important;
+            transform: scale(1.03);
+        }
+
+        .slot-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .slot-pos-tag {
+            font-family: var(--font-display);
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: var(--honolulu-bright);
+            letter-spacing: 0.5px;
+        }
+
+        .slot-impact-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .slot-impact-tag.penalty {
+            color: var(--accent-red);
+        }
+
+        /* Starter Card inside slot */
+        .starter-card {
+            background: linear-gradient(135deg, rgba(0, 118, 182, 0.25) 0%, rgba(13, 20, 30, 0.95) 100%);
+            border: 1px solid rgba(0, 153, 238, 0.4);
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .starter-card:active {
+            cursor: grabbing;
+        }
+
+        .starter-card:hover {
+            border-color: var(--honolulu-bright);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 118, 182, 0.3);
+        }
+
+        .starter-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--honolulu-blue), #004d77);
+            border: 1px solid var(--silver);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .starter-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .starter-name {
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+        }
+
+        .starter-metric {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--silver);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bench-btn {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #EF4444;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .bench-btn:hover {
+            background: rgba(239, 68, 68, 0.35);
+            border-color: #EF4444;
+            color: #FFFFFF;
+            transform: scale(1.1);
+        }
+
+        /* Empty Slot State */
+        .empty-slot-content {
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.25);
+            min-height: 48px;
+        }
+
+        .empty-slot-text {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--silver-dark);
+            margin-bottom: 2px;
+        }
+
+        .empty-slot-penalty {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--accent-red);
+            font-weight: 700;
+        }
+
+        /* Roster Pool Panel */
+        .roster-pool-panel {
+            background: rgba(10, 16, 24, 0.85);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            max-height: 720px;
+            position: relative;
+        }
+
+        .roster-panel-header {
+            margin-bottom: 14px;
+        }
+
+        .roster-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+        }
+
+        .roster-count-badge {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--honolulu-bright);
+            background: rgba(0, 118, 182, 0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 118, 182, 0.4);
+            margin-left: auto;
+        }
+
+        .roster-instructions {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .roster-search-wrapper {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .roster-search-wrapper .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--silver-dark);
+            pointer-events: none;
+        }
+
+        .roster-search-wrapper input {
+            width: 100%;
+            background: rgba(6, 10, 14, 0.8);
+            border: 1px solid var(--border-glass);
+            color: #FFFFFF;
+            padding: 9px 12px 9px 36px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .roster-search-wrapper input:focus {
+            border-color: var(--honolulu-bright);
+            box-shadow: 0 0 10px var(--honolulu-glow);
+        }
+
+        .roster-cat-tabs {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            scrollbar-width: none;
+        }
+
+        .roster-cat-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .roster-cat-pill {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            color: var(--silver);
+            padding: 4px 9px;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .roster-cat-pill:hover {
+            color: #FFFFFF;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .roster-cat-pill.active {
+            background: var(--honolulu-blue);
+            border-color: var(--honolulu-bright);
+            color: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(0, 118, 182, 0.4);
+        }
+
+        .roster-bench-dropzone {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px dashed rgba(239, 68, 68, 0.35);
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            color: #EF4444;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .roster-bench-dropzone.bench-drop-hover {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: #EF4444 !important;
+            transform: scale(1.02);
+        }
+
+        .roster-card-list {
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 4px;
+            flex: 1;
+        }
+
+        .roster-card-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .roster-card-list::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .roster-card-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.15);
+            border-radius: 3px;
+        }
+
+        /* Individual Roster Card */
+        .roster-card {
+            background: rgba(13, 20, 30, 0.75);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: grab;
+            user-select: none;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .roster-card:hover {
+            border-color: rgba(0, 153, 238, 0.5);
+            background: rgba(18, 28, 42, 0.9);
+            transform: translateX(2px);
+        }
+
+        .roster-card.is-starter {
+            border-left: 3px solid var(--honolulu-bright);
+            background: rgba(0, 118, 182, 0.08);
+        }
+
+        .roster-card.is-dragging {
+            opacity: 0.4;
+            border-style: dashed;
+            border-color: var(--honolulu-bright);
+        }
+
+        .roster-card.selected-player {
+            border-color: var(--honolulu-bright) !important;
+            background: rgba(0, 118, 182, 0.22) !important;
+            box-shadow: 0 0 14px var(--honolulu-glow) !important;
+        }
+
+        .roster-card-num {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--honolulu-blue), #004d77);
+            border: 1px solid var(--silver);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            flex-shrink: 0;
+        }
+
+        .roster-card-num.def-num {
+            background: linear-gradient(135deg, #334155, #0F172A);
+            border-color: var(--silver-dark);
+        }
+
+        .roster-card-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .roster-card-title-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2px;
+        }
+
+        .roster-card-name {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .roster-card-pos {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--silver-light);
+        }
+
+        .roster-card-metric {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--silver);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .roster-card-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .roster-status-badge {
+            font-family: var(--font-display);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .roster-status-badge.starter {
+            background: rgba(0, 118, 182, 0.25);
+            color: var(--honolulu-bright);
+            border: 1px solid rgba(0, 118, 182, 0.45);
+        }
+
+        .roster-status-badge.bench {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--silver-dark);
+        }
+
+        .start-quick-btn {
+            background: rgba(0, 118, 182, 0.2);
+            border: 1px solid rgba(0, 118, 182, 0.4);
+            color: var(--honolulu-bright);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .start-quick-btn:hover {
+            background: var(--honolulu-blue);
+            color: #FFFFFF;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1100px) {
+            .lineup-hud-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .lineup-main-grid {
+                grid-template-columns: 1fr;
+            }
+            .roster-pool-panel {
+                max-height: 480px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lineup-hud-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .trench-row, .secondary-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .receivers-row, .dline-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .backfield-row, .lb-row {
+                max-width: 100%;
+            }
+            .lineup-slot {
+                min-height: 84px;
+            }
+        }
+
+        .lineup-callout-card {
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            border: 1px solid rgba(0, 153, 238, 0.45);
+            background: linear-gradient(135deg, rgba(0, 118, 182, 0.15) 0%, rgba(13, 20, 30, 0.95) 100%);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+            padding: 22px 28px;
+            border-radius: 14px;
+        }
+
+        .lineup-callout-left p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            margin-top: 6px;
+        }
     </style>
     <link rel="icon" type="image/svg+xml" href="lions_logo.svg">
 </head>
@@ -1202,6 +2086,16 @@
                 </svg>
                 Win Probability & Gridiron
             </button>
+            <button class="tab-btn" id="lineupNavBtn" onclick="scrollToLineupSection(event)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                Starting Lineup Lab
+                <span class="nav-new-pill">DRAG & DROP</span>
+            </button>
             <button class="tab-btn" onclick="switchTab('metrics')">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 20V10M12 20V4M6 20v-6"/>
@@ -1261,6 +2155,9 @@
                     </button>
                     <button class="preset-btn" onclick="applyPreset('chiefs')">
                         <span>🏹</span> vs Chiefs (Shootout)
+                    </button>
+                    <button class="preset-btn" onclick="scrollToLineupSection(event)" style="border-color: var(--honolulu-bright); background: rgba(0, 118, 182, 0.2);">
+                        <span>🦁</span> Lineup Lab (Drag & Drop)
                     </button>
                     <button class="preset-btn" onclick="applyPreset('reset')">
                         <span>↺</span> Reset Baseline
@@ -1344,6 +2241,242 @@
                                 <line x1="39" y1="20" x2="39" y2="30" stroke="#FFFFFF" stroke-width="2"/>
                                 <line x1="44" y1="20" x2="44" y2="30" stroke="#FFFFFF" stroke-width="2"/>
                             </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STARTING LINEUP LAB & DEPTH CHART (DIRECTLY IN MAIN SIMULATOR) -->
+            <div class="lineup-builder-section glass-card" id="lineupSection" style="margin-top: 36px;">
+                <!-- Large Lion Watermark -->
+                <svg class="hero-lion-bg" viewBox="0 0 193.89 148.42" style="opacity: 0.05;">
+                    <use href="#official-lions-logo"></use>
+                </svg>
+
+                <div class="lineup-header-cluster">
+                    <div class="lineup-title-row">
+                        <div class="card-title" style="font-size: 1.65rem;">
+                            <!-- Lions Helmets / Players Icon -->
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--honolulu-bright)" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            <span>Starting Lineup & Depth Chart Laboratory</span>
+                        </div>
+                        <div class="lineup-badge-group">
+                            <span class="pill-badge" style="background: rgba(0, 118, 182, 0.25); border-color: var(--honolulu-bright); color: #fff;">
+                                Interactive Drag & Drop
+                            </span>
+                            <span class="pill-badge" id="lineupLiveImpactBadge" style="background: rgba(16, 185, 129, 0.2); border-color: var(--accent-green); color: var(--accent-green);">
+                                Net Prob Boost: +5.4%
+                            </span>
+                        </div>
+                    </div>
+                    <p class="lineup-desc">
+                        Drag individual Detroit Lions players directly into starting spots to simulate the real-world statistical impact of personnel moves, injury absences, and schematic adjustments on team EPA and win probability.
+                    </p>
+
+                    <!-- Presets Toolbar -->
+                    <div class="lineup-presets">
+                        <span class="presets-label">DEPTH PRESETS:</span>
+                        <button class="lineup-preset-btn active" id="presetBtn-full" onclick="applyLineupPreset('full')">
+                            <span>🦁</span> Full Strength Starters (+5.4%)
+                        </button>
+                        <button class="lineup-preset-btn" id="presetBtn-bench_goff" onclick="applyLineupPreset('bench_goff')">
+                            <span>🔄</span> Bench Goff (Hooker QB) (-6.4%)
+                        </button>
+                        <button class="lineup-preset-btn" id="presetBtn-rest_hutch" onclick="applyLineupPreset('rest_hutch')">
+                            <span>⚡</span> Rest Hutchinson (-3.1%)
+                        </button>
+                        <button class="lineup-preset-btn" id="presetBtn-gibbs_bellcow" onclick="applyLineupPreset('gibbs_bellcow')">
+                            <span>🚀</span> Gibbs Bell-Cow Surge (+5.8%)
+                        </button>
+                        <button class="lineup-preset-btn" id="presetBtn-vaki_rotation" onclick="applyLineupPreset('vaki_rotation')">
+                            <span>🏃</span> Speed Duo (Gibbs + Vaki)
+                        </button>
+                        <button class="lineup-preset-btn" id="presetBtn-lockdown_def" onclick="applyLineupPreset('lockdown_def')">
+                            <span>🛡️</span> Lockdown Defense (+5.9%)
+                        </button>
+                        <button class="lineup-preset-btn" id="presetBtn-clear_all" onclick="applyLineupPreset('clear_all')">
+                            <span>🗑️</span> Clear All / Empty Board
+                        </button>
+                        <button class="lineup-preset-btn" onclick="applyLineupPreset('reset')">
+                            <span>↺</span> Reset Default
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lineup Impact Performance HUD -->
+                <div class="lineup-hud-grid">
+                    <div class="lineup-hud-card">
+                        <div class="hud-label">STARTERS ASSIGNED</div>
+                        <div class="hud-val" id="lineupHudStartersCount">22 / 22</div>
+                        <div class="hud-sub" id="lineupHudStartersSub">Full 22-man Starting Unit</div>
+                    </div>
+                    <div class="lineup-hud-card">
+                        <div class="hud-label">UNIT RATING</div>
+                        <div class="hud-val" id="lineupHudScore" style="color: var(--honolulu-bright);">96.4 / 100</div>
+                        <div class="hud-sub">All-Pro Caliber Core</div>
+                    </div>
+                    <div class="lineup-hud-card highlight-card">
+                        <div class="hud-label">WIN PROB IMPACT</div>
+                        <div class="hud-val" id="lineupHudDelta" style="color: var(--accent-green);">+5.4%</div>
+                        <div class="hud-sub">Personnel Edge vs Opponent</div>
+                    </div>
+                    <div class="lineup-hud-card">
+                        <div class="hud-label">OFFENSIVE EPA DELTA</div>
+                        <div class="hud-val" id="lineupHudOffEpa">+0.14</div>
+                        <div class="hud-sub">Passing & Rush Efficiency</div>
+                    </div>
+                    <div class="lineup-hud-card">
+                        <div class="hud-label">DEFENSIVE EPA DELTA</div>
+                        <div class="hud-val" id="lineupHudDefEpa">-0.06</div>
+                        <div class="hud-sub">Lower Opponent Expectation</div>
+                    </div>
+                    <div class="lineup-hud-card">
+                        <div class="hud-label">TRENCH WIN RATE</div>
+                        <div class="hud-val" id="lineupHudTrench">+8.2%</div>
+                        <div class="hud-sub">Pass Block & Rush Margin</div>
+                    </div>
+                </div>
+
+                <!-- Main Grid Layout: Tactical Turf on Left, Roster Pool on Right -->
+                <div class="lineup-main-grid">
+                    <!-- Left: Tactical Turf Depth Chart Board -->
+                    <div class="turf-depth-chart-wrapper">
+                        <div class="turf-header-bar">
+                            <div class="turf-title-group">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--honolulu-bright)" stroke-width="2">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                    <line x1="12" y1="4" x2="12" y2="20"/>
+                                </svg>
+                                <span>Ford Field Depth Chart Grid</span>
+                            </div>
+                            <div class="lineup-view-toggle">
+                                <button class="view-toggle-btn active" id="viewToggle-all" onclick="switchLineupView('all')">All 22 Starters</button>
+                                <button class="view-toggle-btn" id="viewToggle-off" onclick="switchLineupView('off')">Offense (11)</button>
+                                <button class="view-toggle-btn" id="viewToggle-def" onclick="switchLineupView('def')">Defense (11)</button>
+                            </div>
+                        </div>
+
+                        <!-- Turf Field Container -->
+                        <div class="turf-depth-chart" id="turfDepthChart">
+                            <!-- Background Midfield Crest -->
+                            <div class="turf-midfield-watermark">
+                                <svg viewBox="0 0 193.89 148.42">
+                                    <use href="#official-lions-logo"></use>
+                                </svg>
+                            </div>
+
+                            <!-- OFFENSIVE UNIT -->
+                            <div class="unit-section" id="unitSection-off">
+                                <div class="unit-banner off-banner">
+                                    <div class="unit-badge">OFFENSE</div>
+                                    <span class="unit-subtitle">11-MAN STARTING PACKAGE • PLAY-ACTION & ZONE RUN</span>
+                                </div>
+
+                                <!-- Trench Row: Offensive Line (LT, LG, C, RG, RT) -->
+                                <div class="formation-row-label">OFFENSIVE LINE / TRENCH ANCHORS (PBWR)</div>
+                                <div class="formation-row trench-row" id="row-ol">
+                                    <!-- Rendered dynamically -->
+                                </div>
+
+                                <!-- Backfield Row: QB & RB -->
+                                <div class="formation-row-label">BACKFIELD COMMAND (CPOE & RYOE)</div>
+                                <div class="formation-row backfield-row" id="row-backfield">
+                                    <!-- Rendered dynamically -->
+                                </div>
+
+                                <!-- Skill Receivers Row: WR1, WR2, SLOT, TE -->
+                                <div class="formation-row-label">RECEIVER & TIGHT END TARGETS (YPRR)</div>
+                                <div class="formation-row receivers-row" id="row-receivers">
+                                    <!-- Rendered dynamically -->
+                                </div>
+                            </div>
+
+                            <!-- DEFENSIVE UNIT -->
+                            <div class="unit-section" id="unitSection-def" style="margin-top: 24px;">
+                                <div class="unit-banner def-banner">
+                                    <div class="unit-badge" style="background: linear-gradient(135deg, #1E293B, #0F172A); border-color: var(--silver);">DEFENSE</div>
+                                    <span class="unit-subtitle">11-MAN STARTING PACKAGE • BASE 4-2-5 NICKEL RUSH</span>
+                                </div>
+
+                                <!-- Defensive Line Row: EDGE1, DT1, DT2, EDGE2 -->
+                                <div class="formation-row-label">FRONT FOUR PASS RUSH (PRWR & RSWR)</div>
+                                <div class="formation-row dline-row" id="row-dline">
+                                    <!-- Rendered dynamically -->
+                                </div>
+
+                                <!-- Linebackers Row: WLB & MLB -->
+                                <div class="formation-row-label">LINEBACKER LEVEL (TACKLE & COVERAGE EFFICIENCY)</div>
+                                <div class="formation-row lb-row" id="row-lb">
+                                    <!-- Rendered dynamically -->
+                                </div>
+
+                                <!-- Secondary Row: CB1, CB2, NB, FS, SS -->
+                                <div class="formation-row-label">SECONDARY & BALL HAWKS (PASSER RTG & COVERAGE GRADE)</div>
+                                <div class="formation-row secondary-row" id="row-secondary">
+                                    <!-- Rendered dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Lions Personnel & Bench Pool -->
+                    <div class="roster-pool-panel" id="rosterPoolPanel">
+                        <div class="roster-panel-header">
+                            <div class="roster-title-group">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                                <span>Detroit Lions Roster Pool</span>
+                                <span class="roster-count-badge" id="rosterCountBadge">46 Players</span>
+                            </div>
+                            <div class="roster-instructions">
+                                💡 Drag card onto a spot, or click card then click a slot to assign.
+                            </div>
+                        </div>
+
+                        <!-- Search Bar -->
+                        <div class="roster-search-wrapper">
+                            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" id="rosterSearchInput" placeholder="Filter by player name, position, or #..." oninput="handleRosterSearch(this.value)">
+                        </div>
+
+                        <!-- Category Filter Pills -->
+                        <div class="roster-cat-tabs">
+                            <button class="roster-cat-pill active" onclick="filterRosterCategory('ALL')">All</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('OFF')">Offense</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('DEF')">Defense</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('QB')">QB</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('RB')">RB</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('WR')">WR</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('TE')">TE</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('OL')">OL</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('DL')">DL/EDGE</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('LB')">LB</button>
+                            <button class="roster-cat-pill" onclick="filterRosterCategory('DB')">DB/Secondary</button>
+                        </div>
+
+                        <!-- Dropzone for Benching Players -->
+                        <div class="roster-bench-dropzone" id="benchDropzone" ondragover="onBenchDragOver(event)" ondragleave="onBenchDragLeave(event)" ondrop="onBenchDrop(event)">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12h18M3 6h18M3 18h18"/>
+                            </svg>
+                            <span>DROP HERE TO BENCH PLAYER</span>
+                        </div>
+
+                        <!-- Scrollable Roster Cards List -->
+                        <div class="roster-card-list" id="rosterCardList">
+                            <!-- Rendered dynamically -->
                         </div>
                     </div>
                 </div>
@@ -1564,6 +2697,13 @@
                             </div>
                             <div class="breakdown-row">
                                 <span class="metric-name">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    Starting Lineup Personnel Factor
+                                </span>
+                                <span class="metric-calc" id="lineupImpactVal">+5.4% (Full Strength)</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="metric-name">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
                                     Projected Game Total
                                 </span>
@@ -1573,6 +2713,7 @@
                     </div>
                 </div>
             </div>
+
         </section>
 
         <!-- TAB 2: ADVANCED TEAM METRICS WITH FOOTBALL GRAPHICS -->
@@ -1753,9 +2894,9 @@
                                 </td>
                                 <td><span class="player-pos">RB</span></td>
                                 <td>RYOE (Rushing Yards Over Expected)</td>
-                                <td class="data-mono">+0.82 / att</td>
-                                <td><span class="stat-rank">96th</span></td>
-                                <td>Explosive 20+ yard run generator; top-tier missed tackle rate.</td>
+                                <td class="data-mono">+0.94 / att</td>
+                                <td><span class="stat-rank">98th</span></td>
+                                <td>Lead bell-cow back; NFL leader in 20+ yard explosive runs and open-field elusiveness.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -1784,10 +2925,10 @@
                                     </div>
                                 </td>
                                 <td><span class="player-pos">EDGE</span></td>
-                                <td>Pass Rush Win Rate (PRWR)</td>
-                                <td class="data-mono">26.8%</td>
-                                <td><span class="stat-rank">98th</span></td>
-                                <td>Pressure win rate is significantly more predictive than raw sack totals.</td>
+                                <td>PRWR & Sacks (Next Gen Stats)</td>
+                                <td class="data-mono">27.2% / 14.5 Sacks</td>
+                                <td><span class="stat-rank">99th</span></td>
+                                <td>Healthy defensive anchor; returned to elite form with 14.5 sacks and DPOY contention.</td>
                             </tr>
                             <tr>
                                 <td>
@@ -1949,6 +3090,594 @@
     </footer>
 
     <script>
+        // ====================================================
+        // DETROIT LIONS LINEUP LAB DATA & STATE
+        // ====================================================
+        const lionsRoster = [
+            // QUARTERBACKS
+            { id: 'goff', num: 16, name: 'Jared Goff', pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'CPOE +4.6% (92nd)', metricType: 'Passing Efficiency', epa: 0.18, probImpact: 3.6, rating: 91, desc: 'Clean-pocket surgical accuracy; NFL leader in play-action EPA.' },
+            { id: 'hooker', num: 2, name: 'Hendon Hooker', pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'CPOE -1.4% (38th)', metricType: 'Backup Passer', epa: -0.06, probImpact: -2.8, rating: 73, desc: 'Dual-threat backup with rushing upside but unproven timing.' },
+
+            // RUNNING BACKS
+            { id: 'gibbs', num: 26, name: 'Jahmyr Gibbs', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.94 / att (98th)', metricType: 'Lead Bell-Cow Back', epa: 0.16, probImpact: 3.0, rating: 95, desc: 'All-Pro lead back; dominant every-down playmaker with 4.36 breakaway speed.' },
+            { id: 'vaki', num: 33, name: 'Sione Vaki', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.42 / att (78th)', metricType: 'Dynamic RB2 / Receiver', epa: 0.04, probImpact: 0.8, rating: 80, desc: 'Explosive RB2 weapon with versatile receiving and open-field elusiveness.' },
+            { id: 'saylors', num: 35, name: 'Jacob Saylors', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: '4.1 Yds After Contact', metricType: 'Rotational Burst Back', epa: -0.01, probImpact: -0.4, rating: 75, desc: 'Quick-burst rotational running back.' },
+            { id: 'reynolds', num: 13, name: 'Craig Reynolds', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'Pass Pro 82.5 PFF', metricType: 'Third-Down Specialist', epa: -0.03, probImpact: -0.8, rating: 73, desc: 'Reliable pass-protection veteran and special teams captain.' },
+
+            // WIDE RECEIVERS
+            { id: 'st_brown', num: 14, name: 'Amon-Ra St. Brown', pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: 'YPRR 2.54 (95th)', metricType: 'Target Magnet', epa: 0.16, probImpact: 3.2, rating: 95, desc: 'All-Pro separator; highest 1st-down conversion rate in NFC.' },
+            { id: 'jamo', num: 9, name: 'Jameson Williams', pos: 'WR', unit: 'OFF', primaryPos: 'WR2', metric: '20.8 Yds/Rec (97th)', metricType: 'Deep Threat', epa: 0.11, probImpact: 2.2, rating: 87, desc: 'Stretches safeties deep; elite top-end separation.' },
+            { id: 'raymond', num: 11, name: 'Kalif Raymond', pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'YPRR 1.82 (81st)', metricType: 'Slot Agility', epa: 0.06, probImpact: 1.2, rating: 82, desc: 'Quick-twitch route runner with punt return versatility.' },
+            { id: 'dpj', num: 19, name: 'Donovan Peoples-Jones', pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: 'Contested Catch 58%', metricType: 'Perimeter Depth', epa: -0.02, probImpact: -0.6, rating: 75, desc: 'Physical jump-ball perimeter receiver.' },
+            { id: 'robinson', num: 18, name: 'Allen Robinson', pos: 'WR', unit: 'OFF', primaryPos: 'WR2', metric: 'Catch Radius 85th', metricType: 'Possession Depth', epa: -0.02, probImpact: -0.7, rating: 74, desc: 'Experienced red-zone target.' },
+            { id: 'i_williams', num: 83, name: 'Isaiah Williams', pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'YAC / Rec 5.8 yds', metricType: 'Slot Depth', epa: -0.04, probImpact: -1.0, rating: 70, desc: 'Undrafted slot technician.' },
+
+            // TIGHT ENDS
+            { id: 'laporta', num: 87, name: 'Sam LaPorta', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'YPRR 2.08 (94th)', metricType: 'Middle Exploiter', epa: 0.13, probImpact: 2.5, rating: 92, desc: 'Pro Bowl mismatch against linebackers; reliable red-zone target.' },
+            { id: 'wright', num: 89, name: 'Brock Wright', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Run Block 74.5 PFF', metricType: 'Inline Blocker', epa: 0.01, probImpact: 0.2, rating: 77, desc: 'Solid Y-tight end who sets the edge for outside runs.' },
+            { id: 'zylstra', num: 84, name: 'Shane Zylstra', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Red Zone TD Eff 18%', metricType: 'TE3 Specialist', epa: -0.03, probImpact: -0.8, rating: 71, desc: 'Receiving tight end depth.' },
+
+            // OFFENSIVE LINE
+            { id: 'sewell', num: 58, name: 'Penei Sewell', pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 94.2% (99th)', metricType: 'Generational Tackle', epa: 0.15, probImpact: 3.0, rating: 97, desc: 'First-team All-Pro RT; dominant run-blocker and lockdown pass pro.' },
+            { id: 'decker', num: 68, name: 'Taylor Decker', pos: 'OL', unit: 'OFF', primaryPos: 'LT', metric: 'PBWR 91.8% (89th)', metricType: 'Blindside Anchor', epa: 0.10, probImpact: 2.0, rating: 89, desc: 'Veteran blindside pass-blocker; stabilizes pocket depth.' },
+            { id: 'ragnow', num: 77, name: 'Frank Ragnow', pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 93.5% (98th)', metricType: 'All-Pro Center', epa: 0.13, probImpact: 2.6, rating: 94, desc: 'Pound-for-pound NFL top interior anchor; sets all protections.' },
+            { id: 'zeitler', num: 70, name: 'Kevin Zeitler', pos: 'OL', unit: 'OFF', primaryPos: 'RG', metric: 'PBWR 90.2% (86th)', metricType: 'Veteran Pass Pro', epa: 0.08, probImpact: 1.6, rating: 87, desc: 'Elite interior pass-set technician with minimal pressures allowed.' },
+            { id: 'glasgow', num: 60, name: 'Graham Glasgow', pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 88.5% (82nd)', metricType: 'Physical Guard', epa: 0.07, probImpact: 1.4, rating: 85, desc: 'Versatile interior battler who clears inside running lanes.' },
+            { id: 'skipper', num: 70, name: 'Dan Skipper', pos: 'OL', unit: 'OFF', primaryPos: 'LT', metric: 'Jumbo Tight End / OT', metricType: 'Swing Tackle', epa: -0.03, probImpact: -0.8, rating: 75, desc: 'Ford Field fan favorite swing tackle and jumbo package specialist.' },
+            { id: 'sorsdal', num: 75, name: 'Colby Sorsdal', pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 82.1%', metricType: 'Backup Tackle', epa: -0.05, probImpact: -1.2, rating: 72, desc: 'Young developmental tackle.' },
+            { id: 'awosika', num: 74, name: 'Kayode Awosika', pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 83.4%', metricType: 'Backup Guard', epa: -0.04, probImpact: -1.0, rating: 73, desc: 'Reserve interior lineman.' },
+            { id: 'niese', num: 62, name: 'Michael Niese', pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 81.0%', metricType: 'Backup Center', epa: -0.05, probImpact: -1.3, rating: 71, desc: 'Reserve center.' },
+
+            // DEFENSIVE LINE / EDGE
+            { id: 'hutchinson', num: 97, name: 'Aidan Hutchinson', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: '14.5 Sacks • PRWR 27.2% (99th)', metricType: 'All-Pro DPOY Anchor', epa: -0.16, probImpact: 3.5, rating: 97, desc: 'Healthy anchor of defense; dominant 14.5 sacks season upon return, elite 27.2% pressure rate.' },
+            { id: 'mcneill', num: 54, name: 'Alim McNeill', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 14.2% (92nd)', metricType: '3-Tech Penetrator', epa: -0.10, probImpact: 2.2, rating: 91, desc: 'Quick-burst defensive tackle who collapses the pocket from inside.' },
+            { id: 'reader', num: 98, name: 'DJ Reader', pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'RSWR 89.2% (95th)', metricType: 'Run Stuffer', epa: -0.09, probImpact: 2.0, rating: 90, desc: 'Double-team absorbing nose tackle; shuts down A-gap runs.' },
+            { id: 'z_smith', num: 99, name: 'Za'Darius Smith', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'PRWR 20.4% (88th)', metricType: 'Veteran Power Rusher', epa: -0.09, probImpact: 2.0, rating: 88, desc: 'Experienced edge defender with inside-out rush flexibility.' },
+            { id: 'davenport', num: 92, name: 'Marcus Davenport', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'PRWR 16.5%', metricType: 'Edge Rotational', epa: -0.03, probImpact: 0.6, rating: 79, desc: 'Heavy-handed edge setter.' },
+            { id: 'onwuzurike', num: 91, name: 'Levi Onwuzurike', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 12.1%', metricType: 'Interior Rusher', epa: -0.02, probImpact: 0.5, rating: 80, desc: 'Pass rush subpackage 3-technique.' },
+            { id: 'paschal', num: 93, name: 'Josh Paschal', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: 'RSWR 82.5%', metricType: 'Edge Setter', epa: -0.02, probImpact: 0.4, rating: 78, desc: 'Physical run-stopping defensive end.' },
+            { id: 'wingo', num: 94, name: 'Mekhi Wingo', pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'Interior Burst 76.0', metricType: 'Rookie DT', epa: 0.02, probImpact: -0.7, rating: 74, desc: 'Rookie interior defender.' },
+            { id: 'houston', num: 41, name: 'James Houston', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'Pressure/Snap 14%', metricType: 'Speed Specialist', epa: 0.01, probImpact: -0.4, rating: 75, desc: 'Speed bend specialist in passing situations.' },
+
+            // LINEBACKERS
+            { id: 'anzalone', num: 34, name: 'Alex Anzalone', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Coverage PFF 82.5 (86th)', metricType: 'Defense Captain', epa: -0.08, probImpact: 1.8, rating: 88, desc: 'Defensive play-caller; diagnoses motions and fills cutback lanes.' },
+            { id: 'campbell', num: 46, name: 'Jack Campbell', pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'Tackle Eff 84.2% (84th)', metricType: 'Thumping Mike', epa: -0.07, probImpact: 1.6, rating: 86, desc: 'Sideline-to-sideline run stopper with great tackling efficiency.' },
+            { id: 'rodriguez', num: 44, name: 'Malcolm Rodriguez', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Stop Rate 9.2%', metricType: 'Downhill LB', epa: -0.01, probImpact: 0.3, rating: 78, desc: 'Instinctive downhill linebacker.' },
+            { id: 'reeves_maybin', num: 42, name: 'Jalen Reeves-Maybin', pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'ST All-Pro / LB Depth', metricType: 'Sub-package LB', epa: -0.02, probImpact: 0.4, rating: 79, desc: 'Coverage linebacker and special teams captain.' },
+
+            // CORNERBACKS
+            { id: 'davis', num: 23, name: 'Carlton Davis III', pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Press Win 86.4% (87th)', metricType: 'Shutdown Corner', epa: -0.09, probImpact: 2.0, rating: 88, desc: 'Physical perimeter cornerback who disrupts timing at the line.' },
+            { id: 'arnold', num: 0, name: 'Terrion Arnold', pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Forced Inc % 16.8% (85th)', metricType: 'Aggressive Corner', epa: -0.07, probImpact: 1.7, rating: 85, desc: 'First-round rookie with fluid hips and fierce competitive toughness.' },
+            { id: 'robertson', num: 21, name: 'Amik Robertson', pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Slot Passer Rtg 64.2', metricType: 'Nickel Enforcer', epa: -0.06, probImpact: 1.4, rating: 83, desc: 'Scrappy inside nickel defender who tackles well in space.' },
+            { id: 'rakestraw', num: 15, name: 'Ennis Rakestraw Jr.', pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Physical Jam 81.0', metricType: 'Rookie CB', epa: 0.01, probImpact: -0.3, rating: 76, desc: 'Tough press-man rookie corner.' },
+            { id: 'moseley', num: 4, name: 'Emmanuel Moseley', pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Coverage PFF 75.0', metricType: 'Veteran CB', epa: 0.01, probImpact: -0.2, rating: 77, desc: 'Veteran perimeter corner.' },
+            { id: 'dorsey', num: 30, name: 'Khalil Dorsey', pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Speed 4.38s', metricType: 'CB Depth', epa: 0.03, probImpact: -0.8, rating: 73, desc: 'Fast gunner and slot depth.' },
+
+            // SAFETIES
+            { id: 'branch', num: 32, name: 'Brian Branch', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Coverage 92.4 PFF (99th)', metricType: 'All-Pro Hybrid', epa: -0.14, probImpact: 3.0, rating: 95, desc: 'Elite ball-hawking safety/nickel; top coverage rating in NFL.' },
+            { id: 'k_joseph', num: 31, name: 'Kerby Joseph', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: '6 INTs / Season (96th)', metricType: 'Centerfield Thief', epa: -0.10, probImpact: 2.2, rating: 90, desc: 'Rangy deep safety with unmatched ball skills and anticipation.' },
+            { id: 'melifonwu', num: 26, name: 'Ifeatu Melifonwu', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Blitz Sack Rate 12%', metricType: 'Box Enforcer', epa: -0.04, probImpact: 0.8, rating: 81, desc: 'Physical safety who excels on blitz packages and in run support.' },
+            { id: 'b_joseph', num: 40, name: 'Brandon Joseph', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: 'Coverage PFF 70.5', metricType: 'Backup Safety', epa: 0.04, probImpact: -1.0, rating: 72, desc: 'Backup safety.' }
+        ];
+
+        const defaultStartingSlots = {
+            // OFFENSE (11)
+            'LT': 'decker',
+            'LG': 'glasgow',
+            'C': 'ragnow',
+            'RG': 'zeitler',
+            'RT': 'sewell',
+            'QB': 'goff',
+            'RB': 'gibbs',
+            'WR1': 'st_brown',
+            'WR2': 'jamo',
+            'SLOT': 'raymond',
+            'TE': 'laporta',
+
+            // DEFENSE (11)
+            'EDGE1': 'hutchinson',
+            'DT1': 'mcneill',
+            'DT2': 'reader',
+            'EDGE2': 'z_smith',
+            'WLB': 'anzalone',
+            'MLB': 'campbell',
+            'CB1': 'davis',
+            'CB2': 'arnold',
+            'NB': 'robertson',
+            'FS': 'k_joseph',
+            'SS': 'branch'
+        };
+
+        const slotDefinitions = [
+            // OFFENSE
+            { id: 'LT', unit: 'OFF', row: 'row-ol', label: 'LT', fullLabel: 'LT • LEFT TACKLE', allowed: ['OL'] },
+            { id: 'LG', unit: 'OFF', row: 'row-ol', label: 'LG', fullLabel: 'LG • LEFT GUARD', allowed: ['OL'] },
+            { id: 'C', unit: 'OFF', row: 'row-ol', label: 'C', fullLabel: 'C • CENTER', allowed: ['OL'] },
+            { id: 'RG', unit: 'OFF', row: 'row-ol', label: 'RG', fullLabel: 'RG • RIGHT GUARD', allowed: ['OL'] },
+            { id: 'RT', unit: 'OFF', row: 'row-ol', label: 'RT', fullLabel: 'RT • RIGHT TACKLE', allowed: ['OL'] },
+            { id: 'QB', unit: 'OFF', row: 'row-backfield', label: 'QB', fullLabel: 'QB • QUARTERBACK', allowed: ['QB'] },
+            { id: 'RB', unit: 'OFF', row: 'row-backfield', label: 'RB', fullLabel: 'RB • RUNNING BACK', allowed: ['RB'] },
+            { id: 'WR1', unit: 'OFF', row: 'row-receivers', label: 'WR1', fullLabel: 'WR1 • X-SPLIT END', allowed: ['WR'] },
+            { id: 'SLOT', unit: 'OFF', row: 'row-receivers', label: 'SLOT', fullLabel: 'SLOT • RECEIVER / FLEX', allowed: ['WR', 'TE', 'RB'] },
+            { id: 'TE', unit: 'OFF', row: 'row-receivers', label: 'TE', fullLabel: 'TE • TIGHT END', allowed: ['TE'] },
+            { id: 'WR2', unit: 'OFF', row: 'row-receivers', label: 'WR2', fullLabel: 'WR2 • Z-FLANKER', allowed: ['WR'] },
+
+            // DEFENSE
+            { id: 'EDGE1', unit: 'DEF', row: 'row-dline', label: 'EDGE1', fullLabel: 'EDGE1 • RUSH END', allowed: ['DL'] },
+            { id: 'DT1', unit: 'DEF', row: 'row-dline', label: 'DT1', fullLabel: 'DT1 • 3-TECH TACKLE', allowed: ['DL'] },
+            { id: 'DT2', unit: 'DEF', row: 'row-dline', label: 'DT2', fullLabel: 'DT2 • NOSE TACKLE', allowed: ['DL'] },
+            { id: 'EDGE2', unit: 'DEF', row: 'row-dline', label: 'EDGE2', fullLabel: 'EDGE2 • POWER END', allowed: ['DL'] },
+            { id: 'WLB', unit: 'DEF', row: 'row-lb', label: 'WLB', fullLabel: 'WLB • WILL LINEBACKER', allowed: ['LB'] },
+            { id: 'MLB', unit: 'DEF', row: 'row-lb', label: 'MLB', fullLabel: 'MLB • MIKE LINEBACKER', allowed: ['LB'] },
+            { id: 'CB1', unit: 'DEF', row: 'row-secondary', label: 'CB1', fullLabel: 'CB1 • LEFT CORNER', allowed: ['DB'] },
+            { id: 'NB', unit: 'DEF', row: 'row-secondary', label: 'NB', fullLabel: 'NB • NICKEL CORNER', allowed: ['DB'] },
+            { id: 'FS', unit: 'DEF', row: 'row-secondary', label: 'FS', fullLabel: 'FS • FREE SAFETY', allowed: ['DB'] },
+            { id: 'SS', unit: 'DEF', row: 'row-secondary', label: 'SS', fullLabel: 'SS • STRONG SAFETY', allowed: ['DB'] },
+            { id: 'CB2', unit: 'DEF', row: 'row-secondary', label: 'CB2', fullLabel: 'CB2 • RIGHT CORNER', allowed: ['DB'] }
+        ];
+
+        // Active state
+        let activeLineup = Object.assign({}, defaultStartingSlots);
+        let selectedPlayerId = null;
+        let currentRosterFilter = 'ALL';
+        let currentRosterSearch = '';
+        let currentLineupView = 'all';
+
+        function getPlayerById(id) {
+            return lionsRoster.find(p => p.id === id) || null;
+        }
+
+        function getSlotOfPlayer(playerId) {
+            for (const [slotId, pid] of Object.entries(activeLineup)) {
+                if (pid === playerId) return slotId;
+            }
+            return null;
+        }
+
+        // Compute Lineup Quality & Statistical Impact
+        function computeLineupStats() {
+            let assignedCount = 0;
+            let rawProbSum = 0;
+            let totalRating = 0;
+            let offEpaSum = 0;
+            let defEpaSum = 0;
+            let emptySlotsCount = 0;
+
+            for (const slot of slotDefinitions) {
+                const pid = activeLineup[slot.id];
+                if (pid) {
+                    const p = getPlayerById(pid);
+                    if (p) {
+                        assignedCount++;
+                        rawProbSum += p.probImpact;
+                        totalRating += p.rating;
+                        if (slot.unit === 'OFF') {
+                            offEpaSum += p.epa;
+                        } else {
+                            defEpaSum += p.epa;
+                        }
+                    } else {
+                        emptySlotsCount++;
+                    }
+                } else {
+                    emptySlotsCount++;
+                }
+            }
+
+            // Baseline raw sum for default full-strength Lions = 49.7
+            // Base Lineup Boost = +5.4%
+            const emptyPenalty = emptySlotsCount * 2.8;
+            const netProbImpact = (rawProbSum - 49.7) + 5.4 - emptyPenalty;
+
+            const avgRating = assignedCount > 0 ? (totalRating / assignedCount) : 50;
+            const qualityScore = Math.max(0, Math.min(100, Math.round(avgRating - (emptySlotsCount * 2))));
+
+            // Trench advantage calculation
+            const sewellP = activeLineup['RT'] === 'sewell' ? 2.5 : 0;
+            const ragnowP = activeLineup['C'] === 'ragnow' ? 2.0 : 0;
+            const deckerP = activeLineup['LT'] === 'decker' ? 1.5 : 0;
+            const hutchP = activeLineup['EDGE1'] === 'hutchinson' ? 3.0 : 0;
+            const mcneillP = activeLineup['DT1'] === 'mcneill' ? 1.5 : 0;
+            const trenchDelta = (sewellP + ragnowP + deckerP + hutchP + mcneillP) - (emptySlotsCount * 0.5);
+
+            let summary = 'Full Strength';
+            if (activeLineup['QB'] === 'hooker') {
+                summary = 'Hooker Starting QB';
+            } else if (activeLineup['EDGE1'] !== 'hutchinson') {
+                summary = 'Paschal at EDGE';
+            } else if (emptySlotsCount > 6) {
+                summary = 'Depleted Roster';
+            } else if (assignedCount === 22) {
+                summary = 'Full 22 Starters';
+            } else {
+                summary = `${assignedCount}/22 Starters Set`;
+            }
+
+            return {
+                assignedCount,
+                emptySlotsCount,
+                netProbImpact,
+                qualityScore,
+                offEpaDelta: offEpaSum,
+                defEpaDelta: defEpaSum,
+                trenchDelta,
+                summary
+            };
+        }
+
+        function getLineupProbabilityDelta() {
+            return computeLineupStats().netProbImpact;
+        }
+
+        // ====================================================
+        // RENDER FUNCTIONS
+        // ====================================================
+        function renderLineupBoard() {
+            // Group slot definitions by row
+            const rows = {};
+            slotDefinitions.forEach(slot => {
+                if (!rows[slot.row]) rows[slot.row] = [];
+                rows[slot.row].push(slot);
+            });
+
+            for (const [rowId, slots] of Object.entries(rows)) {
+                const rowEl = document.getElementById(rowId);
+                if (!rowEl) continue;
+
+                rowEl.innerHTML = slots.map(slot => {
+                    const pid = activeLineup[slot.id];
+                    const player = pid ? getPlayerById(pid) : null;
+
+                    if (player) {
+                        const isPosMatch = slot.allowed.includes(player.pos);
+                        return `
+                            <div class="lineup-slot" id="slot-${slot.id}" data-slot-id="${slot.id}"
+                                 ondragover="onSlotDragOver(event, '${slot.id}')"
+                                 ondragleave="onSlotDragLeave(event, '${slot.id}')"
+                                 ondrop="onSlotDrop(event, '${slot.id}')"
+                                 onclick="handleSlotClick('${slot.id}')"
+                                 title="${slot.fullLabel}">
+                                <div class="slot-header">
+                                    <span class="slot-pos-tag">${slot.label}</span>
+                                    <span class="slot-impact-tag ${player.probImpact >= 0 ? '' : 'penalty'}">
+                                        ${player.probImpact >= 0 ? '+' : ''}${player.probImpact.toFixed(1)}%
+                                    </span>
+                                </div>
+                                <div class="starter-card" draggable="true"
+                                     ondragstart="onPlayerDragStart(event, '${player.id}')"
+                                     ondragend="onPlayerDragEnd(event)">
+                                    <div class="starter-num ${player.unit === 'DEF' ? 'def-num' : ''}">${player.num}</div>
+                                    <div class="starter-meta">
+                                        <div class="starter-name">${player.name}</div>
+                                        <div class="starter-metric">${player.metric.split(' ')[0]} ${player.metric.split(' ')[1] || ''}</div>
+                                    </div>
+                                    <button class="bench-btn" onclick="event.stopPropagation(); benchPlayerInSlot('${slot.id}')" title="Bench player">✕</button>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="lineup-slot" id="slot-${slot.id}" data-slot-id="${slot.id}"
+                                 ondragover="onSlotDragOver(event, '${slot.id}')"
+                                 ondragleave="onSlotDragLeave(event, '${slot.id}')"
+                                 ondrop="onSlotDrop(event, '${slot.id}')"
+                                 onclick="handleSlotClick('${slot.id}')"
+                                 title="${slot.fullLabel} - Click or drag starter here">
+                                <div class="slot-header">
+                                    <span class="slot-pos-tag">${slot.label}</span>
+                                    <span class="slot-impact-tag penalty">-2.8%</span>
+                                </div>
+                                <div class="empty-slot-content">
+                                    <div class="empty-slot-text">+ Drop Starter</div>
+                                    <div class="empty-slot-penalty">Unfilled Spot</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('');
+            }
+        }
+
+        function renderRosterPool() {
+            const listEl = document.getElementById('rosterCardList');
+            if (!listEl) return;
+
+            const q = currentRosterSearch.toLowerCase().trim();
+            const filtered = lionsRoster.filter(p => {
+                // Category filter
+                if (currentRosterFilter === 'OFF' && p.unit !== 'OFF') return false;
+                if (currentRosterFilter === 'DEF' && p.unit !== 'DEF') return false;
+                if (currentRosterFilter === 'QB' && p.pos !== 'QB') return false;
+                if (currentRosterFilter === 'RB' && p.pos !== 'RB') return false;
+                if (currentRosterFilter === 'WR' && p.pos !== 'WR') return false;
+                if (currentRosterFilter === 'TE' && p.pos !== 'TE') return false;
+                if (currentRosterFilter === 'OL' && p.pos !== 'OL') return false;
+                if (currentRosterFilter === 'DL' && p.pos !== 'DL') return false;
+                if (currentRosterFilter === 'LB' && p.pos !== 'LB') return false;
+                if (currentRosterFilter === 'DB' && p.pos !== 'DB') return false;
+
+                // Search query
+                if (q) {
+                    const matchName = p.name.toLowerCase().includes(q);
+                    const matchNum = p.num.toString() === q;
+                    const matchPos = p.pos.toLowerCase().includes(q) || p.primaryPos.toLowerCase().includes(q);
+                    return matchName || matchNum || matchPos;
+                }
+                return true;
+            });
+
+            // Update count badge
+            const countBadge = document.getElementById('rosterCountBadge');
+            if (countBadge) countBadge.innerText = `${filtered.length} Players`;
+
+            listEl.innerHTML = filtered.map(player => {
+                const assignedSlot = getSlotOfPlayer(player.id);
+                const isStarter = assignedSlot !== null;
+                const isSelected = selectedPlayerId === player.id;
+
+                return `
+                    <div class="roster-card ${isStarter ? 'is-starter' : ''} ${isSelected ? 'selected-player' : ''}"
+                         id="rosterCard-${player.id}"
+                         draggable="true"
+                         ondragstart="onPlayerDragStart(event, '${player.id}')"
+                         ondragend="onPlayerDragEnd(event)"
+                         onclick="selectRosterPlayer('${player.id}')">
+                        <div class="roster-card-num ${player.unit === 'DEF' ? 'def-num' : ''}">${player.num}</div>
+                        <div class="roster-card-main">
+                            <div class="roster-card-title-row">
+                                <span class="roster-card-name">${player.name}</span>
+                                <span class="roster-card-pos">${player.primaryPos}</span>
+                            </div>
+                            <div class="roster-card-metric">${player.metric}</div>
+                        </div>
+                        <div class="roster-card-actions">
+                            <span class="roster-status-badge ${isStarter ? 'starter' : 'bench'}">
+                                ${isStarter ? assignedSlot : 'BENCH'}
+                            </span>
+                            ${!isStarter ? `<button class="start-quick-btn" onclick="event.stopPropagation(); quickStartPlayer('${player.id}')">+ Start</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ====================================================
+        // INTERACTION & DRAG-AND-DROP HANDLERS
+        // ====================================================
+        window.currentDraggingPlayerId = null;
+
+        function onPlayerDragStart(e, playerId) {
+            e.dataTransfer.setData('text/plain', playerId);
+            e.dataTransfer.effectAllowed = 'move';
+            window.currentDraggingPlayerId = playerId;
+            const card = e.currentTarget;
+            card.classList.add('is-dragging');
+        }
+
+        function onPlayerDragEnd(e) {
+            e.currentTarget.classList.remove('is-dragging');
+            document.querySelectorAll('.lineup-slot').forEach(s => s.classList.remove('drag-target-hover'));
+            const benchDrop = document.getElementById('benchDropzone');
+            if (benchDrop) benchDrop.classList.remove('bench-drop-hover');
+            window.currentDraggingPlayerId = null;
+        }
+
+        function onSlotDragOver(e, slotId) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const slotEl = document.getElementById('slot-' + slotId);
+            if (slotEl) slotEl.classList.add('drag-target-hover');
+        }
+
+        function onSlotDragLeave(e, slotId) {
+            const slotEl = document.getElementById('slot-' + slotId);
+            if (slotEl) slotEl.classList.remove('drag-target-hover');
+        }
+
+        function onSlotDrop(e, slotId) {
+            e.preventDefault();
+            const slotEl = document.getElementById('slot-' + slotId);
+            if (slotEl) slotEl.classList.remove('drag-target-hover');
+
+            const playerId = e.dataTransfer.getData('text/plain') || window.currentDraggingPlayerId;
+            if (playerId) {
+                assignPlayerToSlot(playerId, slotId);
+            }
+        }
+
+        function onBenchDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const b = document.getElementById('benchDropzone');
+            if (b) b.classList.add('bench-drop-hover');
+        }
+
+        function onBenchDragLeave(e) {
+            const b = document.getElementById('benchDropzone');
+            if (b) b.classList.remove('bench-drop-hover');
+        }
+
+        function onBenchDrop(e) {
+            e.preventDefault();
+            const b = document.getElementById('benchDropzone');
+            if (b) b.classList.remove('bench-drop-hover');
+
+            const playerId = e.dataTransfer.getData('text/plain') || window.currentDraggingPlayerId;
+            if (playerId) {
+                benchPlayer(playerId);
+            }
+        }
+
+        // Assign Player to Slot
+        function assignPlayerToSlot(playerId, slotId) {
+            const player = getPlayerById(playerId);
+            if (!player) return;
+
+            // Remove player from previous slot if any
+            const prevSlot = getSlotOfPlayer(playerId);
+            if (prevSlot && prevSlot !== slotId) {
+                activeLineup[prevSlot] = null;
+            }
+
+            // Assign to new slot
+            activeLineup[slotId] = playerId;
+            selectedPlayerId = null;
+
+            renderLineupBoard();
+            renderRosterPool();
+            calculateProbability();
+
+            // Highlight slot briefly
+            const slotEl = document.getElementById('slot-' + slotId);
+            if (slotEl) {
+                slotEl.style.transform = 'scale(1.04)';
+                slotEl.style.borderColor = 'var(--honolulu-bright)';
+                setTimeout(() => {
+                    slotEl.style.transform = '';
+                    slotEl.style.borderColor = '';
+                }, 300);
+            }
+        }
+
+        function benchPlayer(playerId) {
+            const slotId = getSlotOfPlayer(playerId);
+            if (slotId) {
+                activeLineup[slotId] = null;
+                selectedPlayerId = null;
+                renderLineupBoard();
+                renderRosterPool();
+                calculateProbability();
+            }
+        }
+
+        function benchPlayerInSlot(slotId) {
+            activeLineup[slotId] = null;
+            selectedPlayerId = null;
+            renderLineupBoard();
+            renderRosterPool();
+            calculateProbability();
+        }
+
+        function quickStartPlayer(playerId) {
+            const player = getPlayerById(playerId);
+            if (!player) return;
+
+            // Find matching slot definition
+            const primarySlot = player.primaryPos;
+            if (primarySlot && activeLineup.hasOwnProperty(primarySlot)) {
+                assignPlayerToSlot(playerId, primarySlot);
+                return;
+            }
+
+            // Fallback: search for first slot that allows player's position
+            const targetSlot = slotDefinitions.find(s => s.allowed.includes(player.pos));
+            if (targetSlot) {
+                assignPlayerToSlot(playerId, targetSlot.id);
+            }
+        }
+
+        function selectRosterPlayer(playerId) {
+            if (selectedPlayerId === playerId) {
+                selectedPlayerId = null;
+            } else {
+                selectedPlayerId = playerId;
+            }
+            renderRosterPool();
+        }
+
+        function handleSlotClick(slotId) {
+            if (selectedPlayerId) {
+                assignPlayerToSlot(selectedPlayerId, slotId);
+            }
+        }
+
+        function filterRosterCategory(cat) {
+            currentRosterFilter = cat;
+            document.querySelectorAll('.roster-cat-pill').forEach(btn => {
+                if (btn.innerText.toUpperCase().startsWith(cat) || (cat === 'ALL' && btn.innerText === 'All')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderRosterPool();
+        }
+
+        function handleRosterSearch(val) {
+            currentRosterSearch = val;
+            renderRosterPool();
+        }
+
+        function switchLineupView(view) {
+            currentLineupView = view;
+            document.querySelectorAll('.view-toggle-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById('viewToggle-' + view);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            const offSec = document.getElementById('unitSection-off');
+            const defSec = document.getElementById('unitSection-def');
+
+            if (view === 'all') {
+                if (offSec) offSec.style.display = 'block';
+                if (defSec) defSec.style.display = 'block';
+            } else if (view === 'off') {
+                if (offSec) offSec.style.display = 'block';
+                if (defSec) defSec.style.display = 'none';
+            } else if (view === 'def') {
+                if (offSec) offSec.style.display = 'none';
+                if (defSec) defSec.style.display = 'block';
+            }
+        }
+
+        function applyLineupPreset(type) {
+            document.querySelectorAll('.lineup-preset-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById('presetBtn-' + type);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            if (type === 'full') {
+                activeLineup = Object.assign({}, defaultStartingSlots);
+            } else if (type === 'bench_goff') {
+                activeLineup = Object.assign({}, defaultStartingSlots);
+                activeLineup['QB'] = 'hooker';
+            } else if (type === 'rest_hutch' || type === 'no_hutch') {
+                activeLineup = Object.assign({}, defaultStartingSlots);
+                activeLineup['EDGE1'] = 'paschal';
+            } else if (type === 'gibbs_bellcow') {
+                activeLineup = Object.assign({}, defaultStartingSlots);
+                activeLineup['RB'] = 'gibbs';
+                activeLineup['SLOT'] = 'raymond';
+            } else if (type === 'vaki_rotation' || type === 'dual_backs') {
+                activeLineup = Object.assign({}, defaultStartingSlots);
+                activeLineup['RB'] = 'gibbs';
+                activeLineup['SLOT'] = 'vaki';
+            } else if (type === 'lockdown_def') {
+                activeLineup = Object.assign({}, defaultStartingSlots);
+                activeLineup['EDGE1'] = 'hutchinson';
+                activeLineup['DT1'] = 'mcneill';
+                activeLineup['DT2'] = 'reader';
+                activeLineup['EDGE2'] = 'z_smith';
+                activeLineup['WLB'] = 'anzalone';
+                activeLineup['MLB'] = 'campbell';
+                activeLineup['CB1'] = 'davis';
+                activeLineup['CB2'] = 'arnold';
+                activeLineup['NB'] = 'robertson';
+                activeLineup['FS'] = 'k_joseph';
+                activeLineup['SS'] = 'branch';
+            } else if (type === 'clear_all') {
+                activeLineup = {};
+                slotDefinitions.forEach(s => activeLineup[s.id] = null);
+            } else if (type === 'reset') {
+                activeLineup = Object.assign({}, defaultStartingSlots);
+            }
+
+            renderLineupBoard();
+            renderRosterPool();
+            calculateProbability();
+        }
+
+        // ====================================================
+        // OPPONENTS & MATCHUP SIMULATOR
+        // ====================================================
         // Opponents configuration
         const opponents = {
             'GB': { name: 'Green Bay Packers', tag: 'PACKERS', endzoneColor: '#203731' },
@@ -1963,14 +3692,40 @@
         };
 
         function switchTab(tabId) {
+            if (tabId === 'lineup') {
+                scrollToLineupSection();
+                return;
+            }
             document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             
             const targetPane = document.getElementById(tabId);
             if (targetPane) targetPane.classList.add('active');
             
-            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
             if (activeBtn) activeBtn.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToLineupSection(e) {
+            if (e) e.preventDefault();
+            // Ensure simulator tab is active
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            const simPane = document.getElementById('simulator');
+            if (simPane) simPane.classList.add('active');
+            
+            const lineupBtn = document.getElementById('lineupNavBtn');
+            if (lineupBtn) lineupBtn.classList.add('active');
+
+            const el = document.getElementById('lineupSection');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                el.classList.add('section-highlight');
+                setTimeout(() => el.classList.remove('section-highlight'), 1800);
+            }
         }
 
         function updateVal(id, val) {
@@ -2099,8 +3854,12 @@
             // 5. Uniform / Jersey Momentum factor
             const jerseyAdjustment = jerseyData.boost;
 
-            // Final blended Win Probability
-            let finalProb = (pythagorean * 0.53) + ((50 + epaAdjustment + toAdjustment + venueAdjustment + trenchAdjustment + jerseyAdjustment) * 0.47);
+            // 6. Starting Lineup & Depth Chart Personnel factor
+            const lineupStats = computeLineupStats();
+            const lineupAdjustment = lineupStats.netProbImpact;
+
+            // Final blended Win Probability with Starting Lineup Personnel Adjustment
+            let finalProb = (pythagorean * 0.53) + ((50 + epaAdjustment + toAdjustment + venueAdjustment + trenchAdjustment + jerseyAdjustment + lineupAdjustment) * 0.47);
             finalProb = Math.min(96, Math.max(4, finalProb));
 
             // Spread & Total calculation
@@ -2146,7 +3905,50 @@
             if (jImpactEl) {
                 jImpactEl.innerText = '+' + jerseyAdjustment.toFixed(1) + '% (' + jerseyData.name + ')';
             }
+            const lineupImpactEl = document.getElementById('lineupImpactVal');
+            if (lineupImpactEl) {
+                lineupImpactEl.innerText = (lineupAdjustment >= 0 ? '+' : '') + lineupAdjustment.toFixed(1) + '% (' + lineupStats.summary + ')';
+                lineupImpactEl.style.color = lineupAdjustment >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+            }
             document.getElementById('totalPointsVal').innerText = total.toFixed(1) + ' pts (O/U)';
+
+            // Update Starting Lineup Performance HUD
+            const hudStartersCount = document.getElementById('lineupHudStartersCount');
+            if (hudStartersCount) hudStartersCount.innerText = `${lineupStats.assignedCount} / 22`;
+
+            const hudScore = document.getElementById('lineupHudScore');
+            if (hudScore) hudScore.innerText = `${lineupStats.qualityScore} / 100`;
+
+            const hudDelta = document.getElementById('lineupHudDelta');
+            if (hudDelta) {
+                hudDelta.innerText = (lineupAdjustment >= 0 ? '+' : '') + lineupAdjustment.toFixed(1) + '%';
+                hudDelta.style.color = lineupAdjustment >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+            }
+
+            const liveImpactBadge = document.getElementById('lineupLiveImpactBadge');
+            if (liveImpactBadge) {
+                liveImpactBadge.innerText = `Net Prob Boost: ${(lineupAdjustment >= 0 ? '+' : '') + lineupAdjustment.toFixed(1)}%`;
+                liveImpactBadge.style.color = lineupAdjustment >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+                liveImpactBadge.style.borderColor = lineupAdjustment >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+            }
+
+            const hudOffEpa = document.getElementById('lineupHudOffEpa');
+            if (hudOffEpa) {
+                const offVal = offEpa + (lineupStats.offEpaDelta * 0.5);
+                hudOffEpa.innerText = (offVal >= 0 ? '+' : '') + offVal.toFixed(2);
+            }
+
+            const hudDefEpa = document.getElementById('lineupHudDefEpa');
+            if (hudDefEpa) {
+                const defVal = defEpa + (lineupStats.defEpaDelta * 0.5);
+                hudDefEpa.innerText = (defVal <= 0 ? '' : '+') + defVal.toFixed(2);
+            }
+
+            const hudTrench = document.getElementById('lineupHudTrench');
+            if (hudTrench) {
+                const trVal = trenchAdv + lineupStats.trenchDelta;
+                hudTrench.innerText = (trVal > 0 ? '+' : '') + trVal.toFixed(1) + '%';
+            }
 
             // ----------------------------------------------------
             // UPDATE INTERACTIVE GRIDIRON & FOOTBALL GRAPHIC
@@ -2201,7 +4003,13 @@
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
+            renderLineupBoard();
+            renderRosterPool();
             calculateProbability();
+
+            if (window.location.hash === '#lineup') {
+                switchTab('lineup');
+            }
         });
     </script>
 </body>
