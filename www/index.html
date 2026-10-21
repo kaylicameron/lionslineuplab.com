@@ -2285,10 +2285,10 @@
                             <span>🦁</span> Full Strength Starters (+5.4%)
                         </button>
                         <button class="lineup-preset-btn" id="presetBtn-bench_goff" onclick="applyLineupPreset('bench_goff')">
-                            <span>🔄</span> Bench Goff (Hooker QB) (-6.4%)
+                            <span>🔄</span> Bench Goff (Dobbs QB) (-6.0%)
                         </button>
                         <button class="lineup-preset-btn" id="presetBtn-rest_hutch" onclick="applyLineupPreset('rest_hutch')">
-                            <span>⚡</span> Rest Hutchinson (-3.1%)
+                            <span>⚡</span> Rest Hutchinson (-2.9%)
                         </button>
                         <button class="lineup-preset-btn" id="presetBtn-gibbs_bellcow" onclick="applyLineupPreset('gibbs_bellcow')">
                             <span>🚀</span> Gibbs Bell-Cow Surge (+5.8%)
@@ -2297,7 +2297,7 @@
                             <span>🏃</span> Speed Duo (Gibbs + Vaki)
                         </button>
                         <button class="lineup-preset-btn" id="presetBtn-lockdown_def" onclick="applyLineupPreset('lockdown_def')">
-                            <span>🛡️</span> Lockdown Defense (+5.9%)
+                            <span>🛡️</span> Lockdown Defense (+8.1%)
                         </button>
                         <button class="lineup-preset-btn" id="presetBtn-clear_all" onclick="applyLineupPreset('clear_all')">
                             <span>🗑️</span> Clear All / Empty Board
@@ -3095,97 +3095,101 @@
         // ====================================================
         const lionsRoster = [
             // QUARTERBACKS
-            { id: 'goff', num: 16, name: 'Jared Goff', pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'CPOE +4.6% (92nd)', metricType: 'Passing Efficiency', epa: 0.18, probImpact: 3.6, rating: 91, desc: 'Clean-pocket surgical accuracy; NFL leader in play-action EPA.' },
-            { id: 'hooker', num: 2, name: 'Hendon Hooker', pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'CPOE -1.4% (38th)', metricType: 'Backup Passer', epa: -0.06, probImpact: -2.8, rating: 73, desc: 'Dual-threat backup with rushing upside but unproven timing.' },
+            { id: 'goff', num: 16, name: 'Jared Goff', pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'CPOE +4.6% (92nd)', metricType: 'Franchise Passer', epa: 0.18, probImpact: 3.6, rating: 91, desc: 'Clean-pocket surgical accuracy; NFL leader in play-action EPA and red-zone TD efficiency.' },
+            { id: 'dobbs', num: 15, name: 'Joshua Dobbs', pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'Passer Rtg 84.5', metricType: 'Veteran Dual-Threat QB2', epa: -0.05, probImpact: -2.4, rating: 75, desc: 'Experienced dual-threat backup quarterback with scramble mobility.' },
 
             // RUNNING BACKS
-            { id: 'gibbs', num: 26, name: 'Jahmyr Gibbs', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.94 / att (98th)', metricType: 'Lead Bell-Cow Back', epa: 0.16, probImpact: 3.0, rating: 95, desc: 'All-Pro lead back; dominant every-down playmaker with 4.36 breakaway speed.' },
+            { id: 'gibbs', num: 26, name: 'Jahmyr Gibbs', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.94 / att (98th)', metricType: 'Lead Bell-Cow Back', epa: 0.16, probImpact: 3.2, rating: 95, desc: 'All-Pro lead back; dominant every-down playmaker with 4.36 breakaway speed.' },
             { id: 'vaki', num: 33, name: 'Sione Vaki', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.42 / att (78th)', metricType: 'Dynamic RB2 / Receiver', epa: 0.04, probImpact: 0.8, rating: 80, desc: 'Explosive RB2 weapon with versatile receiving and open-field elusiveness.' },
-            { id: 'saylors', num: 35, name: 'Jacob Saylors', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: '4.1 Yds After Contact', metricType: 'Rotational Burst Back', epa: -0.01, probImpact: -0.4, rating: 75, desc: 'Quick-burst rotational running back.' },
-            { id: 'reynolds', num: 13, name: 'Craig Reynolds', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'Pass Pro 82.5 PFF', metricType: 'Third-Down Specialist', epa: -0.03, probImpact: -0.8, rating: 73, desc: 'Reliable pass-protection veteran and special teams captain.' },
+            { id: 'saylors', num: 35, name: 'Jacob Saylors', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: '4.1 Yds After Contact', metricType: 'Rotational RB / KR', epa: -0.01, probImpact: -0.3, rating: 75, desc: 'Quick-burst rotational running back and kick returner.' },
+            { id: 'small', num: 38, name: 'Jabari Small', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'Yds/Carry 4.2', metricType: 'Power Depth Back', epa: -0.03, probImpact: -0.7, rating: 73, desc: 'Tough north-south runner and pass protection depth.' },
 
             // WIDE RECEIVERS
-            { id: 'st_brown', num: 14, name: 'Amon-Ra St. Brown', pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: 'YPRR 2.54 (95th)', metricType: 'Target Magnet', epa: 0.16, probImpact: 3.2, rating: 95, desc: 'All-Pro separator; highest 1st-down conversion rate in NFC.' },
-            { id: 'jamo', num: 9, name: 'Jameson Williams', pos: 'WR', unit: 'OFF', primaryPos: 'WR2', metric: '20.8 Yds/Rec (97th)', metricType: 'Deep Threat', epa: 0.11, probImpact: 2.2, rating: 87, desc: 'Stretches safeties deep; elite top-end separation.' },
-            { id: 'raymond', num: 11, name: 'Kalif Raymond', pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'YPRR 1.82 (81st)', metricType: 'Slot Agility', epa: 0.06, probImpact: 1.2, rating: 82, desc: 'Quick-twitch route runner with punt return versatility.' },
-            { id: 'dpj', num: 19, name: 'Donovan Peoples-Jones', pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: 'Contested Catch 58%', metricType: 'Perimeter Depth', epa: -0.02, probImpact: -0.6, rating: 75, desc: 'Physical jump-ball perimeter receiver.' },
-            { id: 'robinson', num: 18, name: 'Allen Robinson', pos: 'WR', unit: 'OFF', primaryPos: 'WR2', metric: 'Catch Radius 85th', metricType: 'Possession Depth', epa: -0.02, probImpact: -0.7, rating: 74, desc: 'Experienced red-zone target.' },
-            { id: 'i_williams', num: 83, name: 'Isaiah Williams', pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'YAC / Rec 5.8 yds', metricType: 'Slot Depth', epa: -0.04, probImpact: -1.0, rating: 70, desc: 'Undrafted slot technician.' },
+            { id: 'st_brown', num: 14, name: 'Amon-Ra St. Brown', pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'YPRR 2.58 (96th)', metricType: 'All-Pro Target Magnet', epa: 0.17, probImpact: 3.4, rating: 96, desc: 'First-team All-Pro superstar; top 3rd-down separator and premier slot weapon in the NFL.' },
+            { id: 'jamo', num: 9, name: 'Jameson Williams', pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: '20.8 Yds/Rec (97th)', metricType: 'Elite Deep Threat', epa: 0.12, probImpact: 2.4, rating: 88, desc: 'Stretches defenses deep with 4.25 game-breaking speed and explosive route separation.' },
+            { id: 'teslaa', num: 83, name: 'Isaac TeSlaa', pos: 'WR', unit: 'OFF', primaryPos: 'WR2', metric: 'Contested Catch 62% (84th)', metricType: 'Perimeter Boundary WR', epa: 0.05, probImpact: 1.1, rating: 81, desc: 'Big-bodied outside wide receiver who excels on contested sideline grabs and end-zone fades.' },
+            { id: 'martin', num: 17, name: 'Tay Martin', pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: 'Catch Radius 82nd', metricType: 'Perimeter Depth', epa: -0.02, probImpact: -0.5, rating: 75, desc: 'Rangy outside receiver with boundary body control.' },
+            { id: 'kennedy', num: 85, name: 'Tom Kennedy', pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'Hands Rating 88.0', metricType: 'Possession Slot Depth', epa: -0.03, probImpact: -0.7, rating: 74, desc: 'Dependable veteran slot receiver and clutch possession target.' },
 
             // TIGHT ENDS
-            { id: 'laporta', num: 87, name: 'Sam LaPorta', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'YPRR 2.08 (94th)', metricType: 'Middle Exploiter', epa: 0.13, probImpact: 2.5, rating: 92, desc: 'Pro Bowl mismatch against linebackers; reliable red-zone target.' },
-            { id: 'wright', num: 89, name: 'Brock Wright', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Run Block 74.5 PFF', metricType: 'Inline Blocker', epa: 0.01, probImpact: 0.2, rating: 77, desc: 'Solid Y-tight end who sets the edge for outside runs.' },
-            { id: 'zylstra', num: 84, name: 'Shane Zylstra', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Red Zone TD Eff 18%', metricType: 'TE3 Specialist', epa: -0.03, probImpact: -0.8, rating: 71, desc: 'Receiving tight end depth.' },
+            { id: 'laporta', num: 87, name: 'Sam LaPorta', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'YPRR 2.12 (95th)', metricType: 'All-Pro Matchup Nightmare', epa: 0.14, probImpact: 2.7, rating: 93, desc: 'First-team caliber tight end; surgical route runner through intermediate zones.' },
+            { id: 'wright', num: 89, name: 'Brock Wright', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Run Block 76.2 PFF', metricType: 'Physical Inline Y-TE', epa: 0.02, probImpact: 0.4, rating: 78, desc: 'Heavy-handed inline blocking tight end who anchors edge-seal runs.' },
+            { id: 'conklin', num: 81, name: 'Tyler Conklin', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Catch Rate 74.5%', metricType: 'Veteran Receiving TE', epa: 0.04, probImpact: 0.8, rating: 81, desc: 'Experienced Michigan-native veteran TE; reliable seam target in 12-personnel.' },
+            { id: 'meeks', num: 86, name: 'Jackson Meeks', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Red Zone Frame 6-4', metricType: 'Developmental TE', epa: -0.03, probImpact: -0.8, rating: 72, desc: 'Physical young tight end.' },
 
             // OFFENSIVE LINE
-            { id: 'sewell', num: 58, name: 'Penei Sewell', pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 94.2% (99th)', metricType: 'Generational Tackle', epa: 0.15, probImpact: 3.0, rating: 97, desc: 'First-team All-Pro RT; dominant run-blocker and lockdown pass pro.' },
-            { id: 'decker', num: 68, name: 'Taylor Decker', pos: 'OL', unit: 'OFF', primaryPos: 'LT', metric: 'PBWR 91.8% (89th)', metricType: 'Blindside Anchor', epa: 0.10, probImpact: 2.0, rating: 89, desc: 'Veteran blindside pass-blocker; stabilizes pocket depth.' },
-            { id: 'ragnow', num: 77, name: 'Frank Ragnow', pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 93.5% (98th)', metricType: 'All-Pro Center', epa: 0.13, probImpact: 2.6, rating: 94, desc: 'Pound-for-pound NFL top interior anchor; sets all protections.' },
-            { id: 'zeitler', num: 70, name: 'Kevin Zeitler', pos: 'OL', unit: 'OFF', primaryPos: 'RG', metric: 'PBWR 90.2% (86th)', metricType: 'Veteran Pass Pro', epa: 0.08, probImpact: 1.6, rating: 87, desc: 'Elite interior pass-set technician with minimal pressures allowed.' },
-            { id: 'glasgow', num: 60, name: 'Graham Glasgow', pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 88.5% (82nd)', metricType: 'Physical Guard', epa: 0.07, probImpact: 1.4, rating: 85, desc: 'Versatile interior battler who clears inside running lanes.' },
-            { id: 'skipper', num: 70, name: 'Dan Skipper', pos: 'OL', unit: 'OFF', primaryPos: 'LT', metric: 'Jumbo Tight End / OT', metricType: 'Swing Tackle', epa: -0.03, probImpact: -0.8, rating: 75, desc: 'Ford Field fan favorite swing tackle and jumbo package specialist.' },
-            { id: 'sorsdal', num: 75, name: 'Colby Sorsdal', pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 82.1%', metricType: 'Backup Tackle', epa: -0.05, probImpact: -1.2, rating: 72, desc: 'Young developmental tackle.' },
-            { id: 'awosika', num: 74, name: 'Kayode Awosika', pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 83.4%', metricType: 'Backup Guard', epa: -0.04, probImpact: -1.0, rating: 73, desc: 'Reserve interior lineman.' },
-            { id: 'niese', num: 62, name: 'Michael Niese', pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 81.0%', metricType: 'Backup Center', epa: -0.05, probImpact: -1.3, rating: 71, desc: 'Reserve center.' },
+            { id: 'sewell', num: 58, name: 'Penei Sewell', pos: 'OL', unit: 'OFF', primaryPos: 'LT', metric: 'PBWR 94.8% (99th)', metricType: 'Generational Blindside LT', epa: 0.16, probImpact: 3.2, rating: 98, desc: 'Shifted to LT to anchor Goff\'s blindside; pound-for-pound best offensive lineman in the NFL.' },
+            { id: 'mahogany', num: 73, name: 'Christian Mahogany', pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 89.4% (81st)', metricType: 'Mauling Interior Guard', epa: 0.06, probImpact: 1.3, rating: 83, desc: 'Physical, road-grading guard who drives defenders off the ball on inside zone.' },
+            { id: 'scruggs', num: 70, name: 'Juice Scruggs', pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 90.5% (85th)', metricType: 'Starting Center', epa: 0.07, probImpact: 1.5, rating: 85, desc: 'Anchors the pivot; communicates defensive fronts and handles interior bull rushes.' },
+            { id: 'ratledge', num: 64, name: 'Tate Ratledge', pos: 'OL', unit: 'OFF', primaryPos: 'RG', metric: 'PBWR 88.8% (79th)', metricType: 'Starting Right Guard', epa: 0.05, probImpact: 1.2, rating: 83, desc: 'Powerful interior pass protector with stout anchor against defensive tackles.' },
+            { id: 'miller', num: 71, name: 'Blake Miller', pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 87.2% (75th)', metricType: 'Starting Right Tackle', epa: 0.05, probImpact: 1.1, rating: 82, desc: 'Athletic right tackle with strong reach in wide-zone run concepts.' },
+            { id: 'frazier', num: 67, name: 'Miles Frazier', pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 83.0%', metricType: 'Interior OL Depth', epa: -0.03, probImpact: -0.7, rating: 75, desc: 'Reserve guard with good lateral movement.' },
+            { id: 'mclaughlin', num: 63, name: 'Seth McLaughlin', pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 82.5%', metricType: 'Backup Center', epa: -0.04, probImpact: -0.9, rating: 74, desc: 'Smart backup center capable of orchestrating line calls.' },
+            { id: 'borom', num: 75, name: 'Larry Borom', pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 83.8%', metricType: 'Veteran Swing Tackle', epa: -0.02, probImpact: -0.6, rating: 76, desc: 'Experienced tackle capable of stepping in on either side.' },
+            { id: 'bartch', num: 74, name: 'Ben Bartch', pos: 'OL', unit: 'OFF', primaryPos: 'RG', metric: 'PBWR 81.9%', metricType: 'Interior Depth', epa: -0.04, probImpact: -0.9, rating: 73, desc: 'Veteran interior swing lineman.' },
 
             // DEFENSIVE LINE / EDGE
-            { id: 'hutchinson', num: 97, name: 'Aidan Hutchinson', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: '14.5 Sacks • PRWR 27.2% (99th)', metricType: 'All-Pro DPOY Anchor', epa: -0.16, probImpact: 3.5, rating: 97, desc: 'Healthy anchor of defense; dominant 14.5 sacks season upon return, elite 27.2% pressure rate.' },
-            { id: 'mcneill', num: 54, name: 'Alim McNeill', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 14.2% (92nd)', metricType: '3-Tech Penetrator', epa: -0.10, probImpact: 2.2, rating: 91, desc: 'Quick-burst defensive tackle who collapses the pocket from inside.' },
-            { id: 'reader', num: 98, name: 'DJ Reader', pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'RSWR 89.2% (95th)', metricType: 'Run Stuffer', epa: -0.09, probImpact: 2.0, rating: 90, desc: 'Double-team absorbing nose tackle; shuts down A-gap runs.' },
-            { id: 'z_smith', num: 99, name: "Za'Darius Smith", pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'PRWR 20.4% (88th)', metricType: 'Veteran Power Rusher', epa: -0.09, probImpact: 2.0, rating: 88, desc: 'Experienced edge defender with inside-out rush flexibility.' },
-            { id: 'davenport', num: 92, name: 'Marcus Davenport', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'PRWR 16.5%', metricType: 'Edge Rotational', epa: -0.03, probImpact: 0.6, rating: 79, desc: 'Heavy-handed edge setter.' },
-            { id: 'onwuzurike', num: 91, name: 'Levi Onwuzurike', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 12.1%', metricType: 'Interior Rusher', epa: -0.02, probImpact: 0.5, rating: 80, desc: 'Pass rush subpackage 3-technique.' },
-            { id: 'paschal', num: 93, name: 'Josh Paschal', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: 'RSWR 82.5%', metricType: 'Edge Setter', epa: -0.02, probImpact: 0.4, rating: 78, desc: 'Physical run-stopping defensive end.' },
-            { id: 'wingo', num: 94, name: 'Mekhi Wingo', pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'Interior Burst 76.0', metricType: 'Rookie DT', epa: 0.02, probImpact: -0.7, rating: 74, desc: 'Rookie interior defender.' },
-            { id: 'houston', num: 41, name: 'James Houston', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'Pressure/Snap 14%', metricType: 'Speed Specialist', epa: 0.01, probImpact: -0.4, rating: 75, desc: 'Speed bend specialist in passing situations.' },
+            { id: 'hutchinson', num: 97, name: 'Aidan Hutchinson', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: '14.5 Sacks • PRWR 27.2% (99th)', metricType: 'All-Pro DPOY Anchor', epa: -0.16, probImpact: 3.5, rating: 97, desc: 'Superstar anchor of the defense; healthy All-Pro terror with an elite 27.2% pressure rate.' },
+            { id: 'wonnum', num: 95, name: 'D.J. Wonnum', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'Sack Leader • PRWR 19.8% (87th)', metricType: 'Starting EDGE Rusher', epa: -0.08, probImpact: 1.8, rating: 86, desc: 'Starting edge rusher opposite Hutchinson; explosive get-off and current Lions sack leader.' },
+            { id: 'mcneill', num: 54, name: 'Alim McNeill', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 14.8% (93rd)', metricType: '$97M Interior Anchor', epa: -0.11, probImpact: 2.4, rating: 92, desc: 'Franchise 3-technique DT; fully healthy, collapses the pocket and dominates interior gaps.' },
+            { id: 't_williams', num: 90, name: 'Tyleik Williams', pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'RSWR 88.5% (92nd)', metricType: 'Starting 1-Tech / Nose', epa: -0.08, probImpact: 1.7, rating: 85, desc: 'First-round rookie sensation; absorbs double-teams and stonewalls interior runs.' },
+            { id: 'd_moore', num: 56, name: 'Derrick Moore', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'PRWR 16.2%', metricType: 'Rotational Pass Rusher', epa: -0.03, probImpact: 0.6, rating: 80, desc: 'Young power edge defender who rotates in on passing downs.' },
+            { id: 'wingo', num: 94, name: 'Mekhi Wingo', pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'Interior Burst 79.5', metricType: 'Interior Rotational DT', epa: -0.02, probImpact: 0.4, rating: 79, desc: 'Quick-twitch penetrator who disrupts spacing on third downs.' },
+            { id: 'onwuzurike', num: 91, name: 'Levi Onwuzurike', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 13.0%', metricType: 'Versatile Interior Rusher', epa: -0.02, probImpact: 0.5, rating: 80, desc: 'Subpackage rusher who can kick inside or align at 5-technique.' },
+            { id: 'lacy', num: 92, name: 'Tyler Lacy', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'Run Stop 76.0', metricType: 'DL Depth', epa: 0.01, probImpact: -0.3, rating: 75, desc: 'Heavy rotational defender.' },
+            { id: 'oneill', num: 59, name: "Eric O'Neill", pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: 'Edge Speed 4.65', metricType: 'Speed Edge Depth', epa: 0.02, probImpact: -0.5, rating: 74, desc: 'Developmental edge speed rusher.' },
 
             // LINEBACKERS
-            { id: 'anzalone', num: 34, name: 'Alex Anzalone', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Coverage PFF 82.5 (86th)', metricType: 'Defense Captain', epa: -0.08, probImpact: 1.8, rating: 88, desc: 'Defensive play-caller; diagnoses motions and fills cutback lanes.' },
-            { id: 'campbell', num: 46, name: 'Jack Campbell', pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'Tackle Eff 84.2% (84th)', metricType: 'Thumping Mike', epa: -0.07, probImpact: 1.6, rating: 86, desc: 'Sideline-to-sideline run stopper with great tackling efficiency.' },
-            { id: 'rodriguez', num: 44, name: 'Malcolm Rodriguez', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Stop Rate 9.2%', metricType: 'Downhill LB', epa: -0.01, probImpact: 0.3, rating: 78, desc: 'Instinctive downhill linebacker.' },
-            { id: 'reeves_maybin', num: 42, name: 'Jalen Reeves-Maybin', pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'ST All-Pro / LB Depth', metricType: 'Sub-package LB', epa: -0.02, probImpact: 0.4, rating: 79, desc: 'Coverage linebacker and special teams captain.' },
+            { id: 'campbell', num: 46, name: 'Jack Campbell', pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'Tackle Eff 86.8% (91st)', metricType: 'Green-Dot Captain / Mike', epa: -0.09, probImpact: 2.1, rating: 90, desc: 'Defensive green-dot play-caller; sideline-to-sideline run stopper with elite tackling efficiency.' },
+            { id: 'barnes', num: 55, name: 'Derrick Barnes', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Coverage PFF 81.2 (83rd)', metricType: 'Starting Will Linebacker', epa: -0.07, probImpact: 1.6, rating: 85, desc: 'Explosive downhill linebacker; excels shooting gaps and matching up in flats.' },
+            { id: 'rodriguez', num: 44, name: 'Malcolm Rodriguez', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Run Stop Rate 9.8%', metricType: 'Downhill Thumper', epa: -0.03, probImpact: 0.6, rating: 81, desc: 'Fan-favorite instinctive linebacker who blows up lead blocks.' },
+            { id: 'nowaske', num: 43, name: 'Trevor Nowaske', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Coverage PFF 75.0', metricType: 'LB Depth / Coverage', epa: -0.01, probImpact: 0.1, rating: 77, desc: 'Athletic linebacker specializing in coverage and pass defense.' },
+            { id: 'rolder', num: 48, name: 'Jimmy Rolder', pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'Tackle Grade 74.0', metricType: 'Backup Mike LB', epa: 0.02, probImpact: -0.4, rating: 74, desc: 'Interior run-stopping depth.' },
+            { id: 'ogbongbemiga', num: 41, name: 'Amen Ogbongbemiga', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'ST Tackle Leader', metricType: 'Special Teams Ace / LB', epa: -0.01, probImpact: 0.1, rating: 76, desc: 'Core special teams ace and situational linebacker.' },
 
             // CORNERBACKS
-            { id: 'davis', num: 23, name: 'Carlton Davis III', pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Press Win 86.4% (87th)', metricType: 'Shutdown Corner', epa: -0.09, probImpact: 2.0, rating: 88, desc: 'Physical perimeter cornerback who disrupts timing at the line.' },
-            { id: 'arnold', num: 0, name: 'Terrion Arnold', pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Forced Inc % 16.8% (85th)', metricType: 'Aggressive Corner', epa: -0.07, probImpact: 1.7, rating: 85, desc: 'First-round rookie with fluid hips and fierce competitive toughness.' },
-            { id: 'robertson', num: 21, name: 'Amik Robertson', pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Slot Passer Rtg 64.2', metricType: 'Nickel Enforcer', epa: -0.06, probImpact: 1.4, rating: 83, desc: 'Scrappy inside nickel defender who tackles well in space.' },
-            { id: 'rakestraw', num: 15, name: 'Ennis Rakestraw Jr.', pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Physical Jam 81.0', metricType: 'Rookie CB', epa: 0.01, probImpact: -0.3, rating: 76, desc: 'Tough press-man rookie corner.' },
-            { id: 'moseley', num: 4, name: 'Emmanuel Moseley', pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Coverage PFF 75.0', metricType: 'Veteran CB', epa: 0.01, probImpact: -0.2, rating: 77, desc: 'Veteran perimeter corner.' },
-            { id: 'dorsey', num: 30, name: 'Khalil Dorsey', pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Speed 4.38s', metricType: 'CB Depth', epa: 0.03, probImpact: -0.8, rating: 73, desc: 'Fast gunner and slot depth.' },
+            { id: 'reed', num: 2, name: 'D.J. Reed', pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Passer Rtg Allowed 62.4 (92nd)', metricType: 'Lockdown Perimeter CB1', epa: -0.11, probImpact: 2.4, rating: 90, desc: 'Elite shutdown corner; blankets opposing WR1s and locks down the boundary.' },
+            { id: 'rakestraw', num: 15, name: 'Ennis Rakestraw Jr.', pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Press Win Rate 84.5% (86th)', metricType: 'Starting Press CB2', epa: -0.07, probImpact: 1.6, rating: 85, desc: 'Physical, feisty press-man cornerback who disrupts timing at the line of scrimmage.' },
+            { id: 'mccreary', num: 21, name: 'Roger McCreary', pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Slot Passer Rtg 66.8 (88th)', metricType: 'Starting Nickel Enforcer', epa: -0.08, probImpact: 1.8, rating: 87, desc: 'Premier nickel corner with quick-closing burst and stout open-field tackling in the slot.' },
+            { id: 'ya_sin', num: 24, name: 'Rock Ya-Sin', pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Contested Catch % 32%', metricType: 'Veteran Boundary CB', epa: -0.03, probImpact: 0.6, rating: 80, desc: 'Experienced outside cornerback providing veteran coverage depth.' },
+            { id: 'dorsey', num: 30, name: 'Khalil Dorsey', pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Speed 4.38s • Gunner', metricType: 'CB Depth / Returner', epa: 0.01, probImpact: -0.2, rating: 76, desc: 'Blazing speed depth cornerback and kick returner.' },
+            { id: 'abney', num: 39, name: 'Keith Abney II', pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Coverage PFF 72.0', metricType: 'Rookie CB Depth', epa: 0.02, probImpact: -0.5, rating: 74, desc: 'Young developmental corner.' },
 
             // SAFETIES
-            { id: 'branch', num: 32, name: 'Brian Branch', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Coverage 92.4 PFF (99th)', metricType: 'All-Pro Hybrid', epa: -0.14, probImpact: 3.0, rating: 95, desc: 'Elite ball-hawking safety/nickel; top coverage rating in NFL.' },
-            { id: 'k_joseph', num: 31, name: 'Kerby Joseph', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: '6 INTs / Season (96th)', metricType: 'Centerfield Thief', epa: -0.10, probImpact: 2.2, rating: 90, desc: 'Rangy deep safety with unmatched ball skills and anticipation.' },
-            { id: 'melifonwu', num: 26, name: 'Ifeatu Melifonwu', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Blitz Sack Rate 12%', metricType: 'Box Enforcer', epa: -0.04, probImpact: 0.8, rating: 81, desc: 'Physical safety who excels on blitz packages and in run support.' },
-            { id: 'b_joseph', num: 40, name: 'Brandon Joseph', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: 'Coverage PFF 70.5', metricType: 'Backup Safety', epa: 0.04, probImpact: -1.0, rating: 72, desc: 'Backup safety.' }
+            { id: 'clark', num: 36, name: 'Chuck Clark', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: 'Passer Rtg Allowed 68.2 (86th)', metricType: 'Starting Free Safety', epa: -0.08, probImpact: 1.7, rating: 86, desc: 'Veteran centerfield leader who stabilizes deep coverages with great communication.' },
+            { id: 'izien', num: 27, name: 'Christian Izien', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Stop Rate 8.4% (82nd)', metricType: 'Starting Strong Safety', epa: -0.06, probImpact: 1.4, rating: 84, desc: 'Hard-hitting strong safety with slot versatility and aggressive run support.' },
+            { id: 'branch', num: 32, name: 'Brian Branch', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'All-Pro • Practice Window Activated', metricType: 'Superstar DB (Return Looming)', epa: -0.15, probImpact: 3.2, rating: 96, desc: 'First-team All-Pro superstar safety/nickel; 21-day practice window open following Achilles recovery.' },
+            { id: 'k_joseph', num: 31, name: 'Kerby Joseph', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: '9 INT All-Pro • Reserve/PUP', metricType: 'All-Pro Ballhawk (PUP)', epa: -0.12, probImpact: 2.6, rating: 92, desc: 'Ballhawk safety who led NFL in INTs; completing rehab from knee injury, expected back in 2026.' },
+            { id: 'fitzgerald', num: 28, name: 'Bishop Fitzgerald', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: 'Coverage PFF 73.5', metricType: 'Backup Safety', epa: 0.01, probImpact: -0.2, rating: 76, desc: 'Rangy backup deep safety.' },
+            { id: 'harper', num: 29, name: 'Thomas Harper', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Box Tackle 74.0', metricType: 'Safety Depth', epa: 0.01, probImpact: -0.3, rating: 75, desc: 'Situational box safety.' }
         ];
 
         const defaultStartingSlots = {
             // OFFENSE (11)
-            'LT': 'decker',
-            'LG': 'glasgow',
-            'C': 'ragnow',
-            'RG': 'zeitler',
-            'RT': 'sewell',
+            'LT': 'sewell',
+            'LG': 'mahogany',
+            'C': 'scruggs',
+            'RG': 'ratledge',
+            'RT': 'miller',
             'QB': 'goff',
             'RB': 'gibbs',
-            'WR1': 'st_brown',
-            'WR2': 'jamo',
-            'SLOT': 'raymond',
+            'WR1': 'jamo',
+            'WR2': 'teslaa',
+            'SLOT': 'st_brown',
             'TE': 'laporta',
 
             // DEFENSE (11)
             'EDGE1': 'hutchinson',
             'DT1': 'mcneill',
-            'DT2': 'reader',
-            'EDGE2': 'z_smith',
-            'WLB': 'anzalone',
+            'DT2': 't_williams',
+            'EDGE2': 'wonnum',
+            'WLB': 'barnes',
             'MLB': 'campbell',
-            'CB1': 'davis',
-            'CB2': 'arnold',
-            'NB': 'robertson',
-            'FS': 'k_joseph',
-            'SS': 'branch'
+            'CB1': 'reed',
+            'CB2': 'rakestraw',
+            'NB': 'mccreary',
+            'FS': 'clark',
+            'SS': 'izien'
         };
 
         const slotDefinitions = [
@@ -3264,27 +3268,27 @@
                 }
             }
 
-            // Baseline raw sum for default full-strength Lions = 49.7
+            // Baseline raw sum for default full-strength 2026 Lions starters = 46.7
             // Base Lineup Boost = +5.4%
             const emptyPenalty = emptySlotsCount * 2.8;
-            const netProbImpact = (rawProbSum - 49.7) + 5.4 - emptyPenalty;
+            const netProbImpact = (rawProbSum - 46.7) + 5.4 - emptyPenalty;
 
             const avgRating = assignedCount > 0 ? (totalRating / assignedCount) : 50;
             const qualityScore = Math.max(0, Math.min(100, Math.round(avgRating - (emptySlotsCount * 2))));
 
             // Trench advantage calculation
-            const sewellP = activeLineup['RT'] === 'sewell' ? 2.5 : 0;
-            const ragnowP = activeLineup['C'] === 'ragnow' ? 2.0 : 0;
-            const deckerP = activeLineup['LT'] === 'decker' ? 1.5 : 0;
+            const sewellP = (activeLineup['LT'] === 'sewell' || activeLineup['RT'] === 'sewell') ? 2.5 : 0;
             const hutchP = activeLineup['EDGE1'] === 'hutchinson' ? 3.0 : 0;
             const mcneillP = activeLineup['DT1'] === 'mcneill' ? 1.5 : 0;
-            const trenchDelta = (sewellP + ragnowP + deckerP + hutchP + mcneillP) - (emptySlotsCount * 0.5);
+            const wonnumP = activeLineup['EDGE2'] === 'wonnum' ? 1.2 : 0;
+            const tWilliamsP = activeLineup['DT2'] === 't_williams' ? 1.0 : 0;
+            const trenchDelta = (sewellP + hutchP + mcneillP + wonnumP + tWilliamsP) - (emptySlotsCount * 0.5);
 
             let summary = 'Full Strength';
-            if (activeLineup['QB'] === 'hooker') {
-                summary = 'Hooker Starting QB';
+            if (activeLineup['QB'] === 'dobbs') {
+                summary = 'Dobbs Starting QB';
             } else if (activeLineup['EDGE1'] !== 'hutchinson') {
-                summary = 'Paschal at EDGE';
+                summary = 'Hutchinson Benched';
             } else if (emptySlotsCount > 6) {
                 summary = 'Depleted Roster';
             } else if (assignedCount === 22) {
@@ -3638,14 +3642,14 @@
                 activeLineup = Object.assign({}, defaultStartingSlots);
             } else if (type === 'bench_goff') {
                 activeLineup = Object.assign({}, defaultStartingSlots);
-                activeLineup['QB'] = 'hooker';
+                activeLineup['QB'] = 'dobbs';
             } else if (type === 'rest_hutch' || type === 'no_hutch') {
                 activeLineup = Object.assign({}, defaultStartingSlots);
-                activeLineup['EDGE1'] = 'paschal';
+                activeLineup['EDGE1'] = 'd_moore';
             } else if (type === 'gibbs_bellcow') {
                 activeLineup = Object.assign({}, defaultStartingSlots);
                 activeLineup['RB'] = 'gibbs';
-                activeLineup['SLOT'] = 'raymond';
+                activeLineup['SLOT'] = 'st_brown';
             } else if (type === 'vaki_rotation' || type === 'dual_backs') {
                 activeLineup = Object.assign({}, defaultStartingSlots);
                 activeLineup['RB'] = 'gibbs';
@@ -3654,13 +3658,13 @@
                 activeLineup = Object.assign({}, defaultStartingSlots);
                 activeLineup['EDGE1'] = 'hutchinson';
                 activeLineup['DT1'] = 'mcneill';
-                activeLineup['DT2'] = 'reader';
-                activeLineup['EDGE2'] = 'z_smith';
-                activeLineup['WLB'] = 'anzalone';
+                activeLineup['DT2'] = 't_williams';
+                activeLineup['EDGE2'] = 'wonnum';
+                activeLineup['WLB'] = 'barnes';
                 activeLineup['MLB'] = 'campbell';
-                activeLineup['CB1'] = 'davis';
-                activeLineup['CB2'] = 'arnold';
-                activeLineup['NB'] = 'robertson';
+                activeLineup['CB1'] = 'reed';
+                activeLineup['CB2'] = 'rakestraw';
+                activeLineup['NB'] = 'mccreary';
                 activeLineup['FS'] = 'k_joseph';
                 activeLineup['SS'] = 'branch';
             } else if (type === 'clear_all') {
