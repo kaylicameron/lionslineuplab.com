@@ -1318,18 +1318,33 @@
         /* Main 2-Column Grid Layout */
         .lineup-main-grid {
             display: grid;
-            grid-template-columns: 1fr 390px;
-            gap: 22px;
+            grid-template-columns: minmax(0, 1fr) 350px;
+            gap: 20px;
             align-items: start;
         }
 
         /* Turf Depth Chart Board */
         .turf-depth-chart-wrapper {
-            background: rgba(6, 10, 14, 0.8);
+            background: rgba(6, 10, 14, 0.85);
             border: 1px solid var(--border-glass);
             border-radius: 12px;
-            overflow: hidden;
+            overflow-x: auto;
             box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.6);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 118, 182, 0.5) transparent;
+        }
+
+        .turf-depth-chart-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .turf-depth-chart-wrapper::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .turf-depth-chart-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(0, 118, 182, 0.5);
+            border-radius: 3px;
         }
 
         .turf-header-bar {
@@ -1389,11 +1404,13 @@
                 radial-gradient(ellipse at 50% 20%, rgba(0, 118, 182, 0.12), transparent 70%),
                 repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px),
                 repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px);
-            padding: 22px;
+            padding: 20px;
             position: relative;
-            min-height: 600px;
+            min-height: 560px;
+            min-width: 640px;
             border-top: 2px solid rgba(255, 255, 255, 0.15);
             border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            box-sizing: border-box;
         }
 
         .turf-midfield-watermark {
@@ -1447,7 +1464,7 @@
             font-family: var(--font-display);
             font-size: 0.72rem;
             font-weight: 800;
-            color: rgba(255, 255, 255, 0.45);
+            color: rgba(255, 255, 255, 0.5);
             letter-spacing: 1px;
             margin: 12px 0 6px 2px;
             text-transform: uppercase;
@@ -1455,58 +1472,61 @@
 
         .formation-row {
             display: grid;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 12px;
+            min-width: 0;
         }
 
         .trench-row {
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, minmax(0, 1fr));
         }
 
         .backfield-row {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 60%;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            max-width: 340px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .receivers-row {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, minmax(0, 1fr));
         }
 
         .dline-row {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, minmax(0, 1fr));
         }
 
         .lb-row {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 60%;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            max-width: 340px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .secondary-row {
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, minmax(0, 1fr));
         }
 
         /* Starting Lineup Slot */
         .lineup-slot {
-            background: rgba(6, 12, 18, 0.85);
+            background: rgba(6, 12, 18, 0.88);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 10px;
-            padding: 8px 10px;
-            min-height: 96px;
+            padding: 6px 8px 8px;
+            min-height: 126px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             cursor: pointer;
+            min-width: 0;
+            box-sizing: border-box;
         }
 
         .lineup-slot:hover {
             border-color: rgba(0, 153, 238, 0.6);
-            background: rgba(10, 18, 28, 0.9);
+            background: rgba(10, 18, 28, 0.95);
             box-shadow: 0 4px 14px rgba(0, 118, 182, 0.25);
         }
 
@@ -1514,29 +1534,44 @@
             border: 2px dashed var(--honolulu-bright) !important;
             background: rgba(0, 118, 182, 0.28) !important;
             box-shadow: 0 0 22px var(--honolulu-glow) !important;
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
         .slot-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 4px;
             margin-bottom: 6px;
+            min-width: 0;
         }
 
         .slot-pos-tag {
             font-family: var(--font-display);
-            font-size: 0.74rem;
+            font-size: 0.76rem;
             font-weight: 800;
             color: var(--honolulu-bright);
             letter-spacing: 0.5px;
+            background: rgba(0, 118, 182, 0.15);
+            padding: 1px 5px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 118, 182, 0.3);
+            white-space: nowrap;
+        }
+
+        .slot-header-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
         }
 
         .slot-impact-tag {
             font-family: var(--font-mono);
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 700;
             color: var(--accent-green);
+            white-space: nowrap;
         }
 
         .slot-impact-tag.penalty {
@@ -1545,16 +1580,19 @@
 
         /* Starter Card inside slot */
         .starter-card {
-            background: linear-gradient(135deg, rgba(0, 118, 182, 0.25) 0%, rgba(13, 20, 30, 0.95) 100%);
-            border: 1px solid rgba(0, 153, 238, 0.4);
+            background: linear-gradient(135deg, rgba(0, 118, 182, 0.22) 0%, rgba(13, 20, 30, 0.95) 100%);
+            border: 1px solid rgba(0, 153, 238, 0.35);
             border-radius: 8px;
-            padding: 6px 8px;
+            padding: 6px 4px 6px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
+            text-align: center;
             cursor: grab;
             user-select: none;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+            min-width: 0;
+            position: relative;
         }
 
         .starter-card:active {
@@ -1563,16 +1601,37 @@
 
         .starter-card:hover {
             border-color: var(--honolulu-bright);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0, 118, 182, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 118, 182, 0.35);
         }
 
-        .starter-num {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
+        /* Player Face Avatar Styling */
+        .starter-avatar-wrap {
+            position: relative;
+            width: 46px;
+            height: 46px;
+            margin-bottom: 4px;
+            flex-shrink: 0;
+        }
+
+        .starter-headshot {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top center;
+            background: radial-gradient(circle, rgba(0, 118, 182, 0.35) 0%, rgba(10, 16, 24, 0.95) 100%);
+            border: 2px solid var(--honolulu-bright);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 118, 182, 0.25);
+            display: block;
+        }
+
+        .starter-avatar-fallback {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
             background: linear-gradient(135deg, var(--honolulu-blue), #004d77);
-            border: 1px solid var(--silver);
+            border: 2px solid var(--silver);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1580,55 +1639,90 @@
             font-size: 0.95rem;
             font-weight: 900;
             color: #FFFFFF;
-            flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        }
+
+        .starter-avatar-fallback.def-fallback {
+            background: linear-gradient(135deg, #334155, #0F172A);
+            border-color: var(--silver-dark);
+        }
+
+        .starter-num-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -4px;
+            background: var(--honolulu-dark);
+            border: 1px solid var(--silver);
+            color: #FFFFFF;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 800;
+            padding: 1px 4px;
+            border-radius: 6px;
+            line-height: 1.1;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .starter-num-badge.def-badge {
+            background: #0F172A;
+            border-color: var(--silver-dark);
         }
 
         .starter-meta {
-            flex: 1;
+            width: 100%;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .starter-name {
             font-family: var(--font-body);
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 700;
             color: #FFFFFF;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 1.2;
+            max-width: 100%;
         }
 
-        .starter-metric {
+        .starter-metric-pill {
             font-family: var(--font-mono);
-            font-size: 0.68rem;
-            color: var(--silver);
+            font-size: 0.65rem;
+            color: var(--silver-light);
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 4px;
+            padding: 1px 4px;
+            margin-top: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         .bench-btn {
             background: rgba(239, 68, 68, 0.15);
             border: 1px solid rgba(239, 68, 68, 0.35);
             color: #EF4444;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             font-weight: 800;
             cursor: pointer;
             transition: all 0.2s ease;
             flex-shrink: 0;
             line-height: 1;
+            padding: 0;
         }
 
         .bench-btn:hover {
-            background: rgba(239, 68, 68, 0.35);
+            background: rgba(239, 68, 68, 0.4);
             border-color: #EF4444;
             color: #FFFFFF;
             transform: scale(1.1);
@@ -1638,26 +1732,33 @@
         .empty-slot-content {
             border: 1px dashed rgba(255, 255, 255, 0.2);
             border-radius: 8px;
-            padding: 8px;
+            padding: 8px 4px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
             background: rgba(0, 0, 0, 0.25);
-            min-height: 48px;
+            min-height: 70px;
+            flex: 1;
+        }
+
+        .empty-slot-icon {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 2px;
+            line-height: 1;
         }
 
         .empty-slot-text {
             font-size: 0.72rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--silver-dark);
-            margin-bottom: 2px;
         }
 
         .empty-slot-penalty {
             font-family: var(--font-mono);
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             color: var(--accent-red);
             font-weight: 700;
         }
@@ -1667,7 +1768,7 @@
             background: rgba(10, 16, 24, 0.85);
             border: 1px solid var(--border-glass);
             border-radius: 12px;
-            padding: 18px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             max-height: 720px;
@@ -1675,7 +1776,7 @@
         }
 
         .roster-panel-header {
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .roster-title-group {
@@ -1710,7 +1811,7 @@
 
         .roster-search-wrapper {
             position: relative;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .roster-search-wrapper .search-icon {
@@ -1727,11 +1828,12 @@
             background: rgba(6, 10, 14, 0.8);
             border: 1px solid var(--border-glass);
             color: #FFFFFF;
-            padding: 9px 12px 9px 36px;
+            padding: 8px 12px 8px 34px;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             outline: none;
             transition: border-color 0.2s ease;
+            box-sizing: border-box;
         }
 
         .roster-search-wrapper input:focus {
@@ -1792,7 +1894,7 @@
             font-weight: 800;
             letter-spacing: 0.8px;
             color: #EF4444;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             transition: all 0.2s ease;
         }
 
@@ -1826,10 +1928,10 @@
 
         /* Individual Roster Card */
         .roster-card {
-            background: rgba(13, 20, 30, 0.75);
+            background: rgba(13, 20, 30, 0.78);
             border: 1px solid var(--border-glass);
             border-radius: 8px;
-            padding: 8px 10px;
+            padding: 7px 10px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -1837,17 +1939,18 @@
             user-select: none;
             transition: all 0.2s ease;
             position: relative;
+            min-width: 0;
         }
 
         .roster-card:hover {
             border-color: rgba(0, 153, 238, 0.5);
-            background: rgba(18, 28, 42, 0.9);
+            background: rgba(18, 28, 42, 0.95);
             transform: translateX(2px);
         }
 
         .roster-card.is-starter {
             border-left: 3px solid var(--honolulu-bright);
-            background: rgba(0, 118, 182, 0.08);
+            background: rgba(0, 118, 182, 0.1);
         }
 
         .roster-card.is-dragging {
@@ -1862,24 +1965,61 @@
             box-shadow: 0 0 14px var(--honolulu-glow) !important;
         }
 
-        .roster-card-num {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
+        .roster-avatar-wrap {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+        }
+
+        .roster-headshot {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top center;
+            background: radial-gradient(circle, rgba(0, 118, 182, 0.3) 0%, rgba(10, 16, 24, 0.9) 100%);
+            border: 1.5px solid var(--honolulu-bright);
+            display: block;
+        }
+
+        .roster-avatar-fallback {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
             background: linear-gradient(135deg, var(--honolulu-blue), #004d77);
-            border: 1px solid var(--silver);
+            border: 1.5px solid var(--silver);
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: var(--font-display);
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 900;
             color: #FFFFFF;
-            flex-shrink: 0;
         }
 
-        .roster-card-num.def-num {
+        .roster-avatar-fallback.def-fallback {
             background: linear-gradient(135deg, #334155, #0F172A);
+            border-color: var(--silver-dark);
+        }
+
+        .roster-num-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -3px;
+            background: var(--honolulu-dark);
+            border: 1px solid var(--silver);
+            color: #FFFFFF;
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            font-weight: 800;
+            padding: 0 3px;
+            border-radius: 4px;
+            line-height: 1.1;
+        }
+
+        .roster-num-badge.def-badge {
+            background: #0F172A;
             border-color: var(--silver-dark);
         }
 
@@ -1893,11 +2033,12 @@
             align-items: center;
             gap: 6px;
             margin-bottom: 2px;
+            min-width: 0;
         }
 
         .roster-card-name {
             font-family: var(--font-body);
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             font-weight: 700;
             color: #FFFFFF;
             white-space: nowrap;
@@ -1907,17 +2048,18 @@
 
         .roster-card-pos {
             font-family: var(--font-mono);
-            font-size: 0.68rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            padding: 1px 5px;
+            padding: 1px 4px;
             border-radius: 4px;
             background: rgba(255, 255, 255, 0.08);
             color: var(--silver-light);
+            flex-shrink: 0;
         }
 
         .roster-card-metric {
             font-family: var(--font-mono);
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: var(--silver);
             white-space: nowrap;
             overflow: hidden;
@@ -1986,18 +2128,6 @@
         @media (max-width: 768px) {
             .lineup-hud-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .trench-row, .secondary-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .receivers-row, .dline-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .backfield-row, .lb-row {
-                max-width: 100%;
-            }
-            .lineup-slot {
-                min-height: 84px;
             }
         }
 
@@ -2965,73 +3095,73 @@
         // ====================================================
         const lionsRoster = [
             // QUARTERBACKS
-            { id: 'goff', num: 16, name: 'Jared Goff', pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'CPOE +4.6% (92nd)', metricType: 'Franchise Passer', epa: 0.18, probImpact: 3.6, rating: 91, desc: 'Clean-pocket surgical accuracy; NFL leader in play-action EPA and red-zone TD efficiency.' },
-            { id: 'dobbs', num: 15, name: 'Joshua Dobbs', pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'Passer Rtg 84.5', metricType: 'Veteran Dual-Threat QB2', epa: -0.05, probImpact: -2.4, rating: 75, desc: 'Experienced dual-threat backup quarterback with scramble mobility.' },
+            { id: 'goff', num: 16, name: 'Jared Goff', espnId: 3046779, pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'CPOE +4.6% (92nd)', metricType: 'Franchise Passer', epa: 0.18, probImpact: 3.6, rating: 91, desc: 'Clean-pocket surgical accuracy; NFL leader in play-action EPA and red-zone TD efficiency.' },
+            { id: 'dobbs', num: 15, name: 'Joshua Dobbs', espnId: 3044720, pos: 'QB', unit: 'OFF', primaryPos: 'QB', metric: 'Passer Rtg 84.5', metricType: 'Veteran Dual-Threat QB2', epa: -0.05, probImpact: -2.4, rating: 75, desc: 'Experienced dual-threat backup quarterback with scramble mobility.' },
 
             // RUNNING BACKS
-            { id: 'gibbs', num: 26, name: 'Jahmyr Gibbs', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.94 / att (98th)', metricType: 'Lead Bell-Cow Back', epa: 0.16, probImpact: 3.2, rating: 95, desc: 'All-Pro lead back; dominant every-down playmaker with 4.36 breakaway speed.' },
-            { id: 'vaki', num: 33, name: 'Sione Vaki', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.42 / att (78th)', metricType: 'Dynamic RB2 / Receiver', epa: 0.04, probImpact: 0.8, rating: 80, desc: 'Explosive RB2 weapon with versatile receiving and open-field elusiveness.' },
-            { id: 'saylors', num: 35, name: 'Jacob Saylors', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: '4.1 Yds After Contact', metricType: 'Rotational RB / KR', epa: -0.01, probImpact: -0.3, rating: 75, desc: 'Quick-burst rotational running back and kick returner.' },
-            { id: 'small', num: 38, name: 'Jabari Small', pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'Yds/Carry 4.2', metricType: 'Power Depth Back', epa: -0.03, probImpact: -0.7, rating: 73, desc: 'Tough north-south runner and pass protection depth.' },
+            { id: 'gibbs', num: 26, name: 'Jahmyr Gibbs', espnId: 4429795, pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.94 / att (98th)', metricType: 'Lead Bell-Cow Back', epa: 0.16, probImpact: 3.2, rating: 95, desc: 'All-Pro lead back; dominant every-down playmaker with 4.36 breakaway speed.' },
+            { id: 'vaki', num: 33, name: 'Sione Vaki', espnId: 4685382, pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'RYOE +0.42 / att (78th)', metricType: 'Dynamic RB2 / Receiver', epa: 0.04, probImpact: 0.8, rating: 80, desc: 'Explosive RB2 weapon with versatile receiving and open-field elusiveness.' },
+            { id: 'saylors', num: 35, name: 'Jacob Saylors', espnId: 4362145, pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: '4.1 Yds After Contact', metricType: 'Rotational RB / KR', epa: -0.01, probImpact: -0.3, rating: 75, desc: 'Quick-burst rotational running back and kick returner.' },
+            { id: 'small', num: 38, name: 'Jabari Small', espnId: 4430155, pos: 'RB', unit: 'OFF', primaryPos: 'RB', metric: 'Yds/Carry 4.2', metricType: 'Power Depth Back', epa: -0.03, probImpact: -0.7, rating: 73, desc: 'Tough north-south runner and pass protection depth.' },
 
             // WIDE RECEIVERS
-            { id: 'st_brown', num: 14, name: 'Amon-Ra St. Brown', pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'YPRR 2.58 (96th)', metricType: 'All-Pro Target Magnet', epa: 0.17, probImpact: 3.4, rating: 96, desc: 'First-team All-Pro superstar; top 3rd-down separator and premier slot weapon in the NFL.' },
-            { id: 'jamo', num: 9, name: 'Jameson Williams', pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: '20.8 Yds/Rec (97th)', metricType: 'Elite Deep Threat', epa: 0.12, probImpact: 2.4, rating: 88, desc: 'Stretches defenses deep with 4.25 game-breaking speed and explosive route separation.' },
-            { id: 'teslaa', num: 83, name: 'Isaac TeSlaa', pos: 'WR', unit: 'OFF', primaryPos: 'WR2', metric: 'Contested Catch 62% (84th)', metricType: 'Perimeter Boundary WR', epa: 0.05, probImpact: 1.1, rating: 81, desc: 'Big-bodied outside wide receiver who excels on contested sideline grabs and end-zone fades.' },
-            { id: 'martin', num: 17, name: 'Tay Martin', pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: 'Catch Radius 82nd', metricType: 'Perimeter Depth', epa: -0.02, probImpact: -0.5, rating: 75, desc: 'Rangy outside receiver with boundary body control.' },
-            { id: 'kennedy', num: 85, name: 'Tom Kennedy', pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'Hands Rating 88.0', metricType: 'Possession Slot Depth', epa: -0.03, probImpact: -0.7, rating: 74, desc: 'Dependable veteran slot receiver and clutch possession target.' },
+            { id: 'st_brown', num: 14, name: 'Amon-Ra St. Brown', espnId: 4374302, pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'YPRR 2.58 (96th)', metricType: 'All-Pro Target Magnet', epa: 0.17, probImpact: 3.4, rating: 96, desc: 'First-team All-Pro superstar; top 3rd-down separator and premier slot weapon in the NFL.' },
+            { id: 'jamo', num: 9, name: 'Jameson Williams', espnId: 4426388, pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: '20.8 Yds/Rec (97th)', metricType: 'Elite Deep Threat', epa: 0.12, probImpact: 2.4, rating: 88, desc: 'Stretches defenses deep with 4.25 game-breaking speed and explosive route separation.' },
+            { id: 'teslaa', num: 83, name: 'Isaac TeSlaa', espnId: 4899587, pos: 'WR', unit: 'OFF', primaryPos: 'WR2', metric: 'Contested Catch 62% (84th)', metricType: 'Perimeter Boundary WR', epa: 0.05, probImpact: 1.1, rating: 81, desc: 'Big-bodied outside wide receiver who excels on contested sideline grabs and end-zone fades.' },
+            { id: 'martin', num: 17, name: 'Tay Martin', espnId: 4241416, pos: 'WR', unit: 'OFF', primaryPos: 'WR1', metric: 'Catch Radius 82nd', metricType: 'Perimeter Depth', epa: -0.02, probImpact: -0.5, rating: 75, desc: 'Rangy outside receiver with boundary body control.' },
+            { id: 'kennedy', num: 85, name: 'Tom Kennedy', espnId: 3121634, pos: 'WR', unit: 'OFF', primaryPos: 'SLOT', metric: 'Hands Rating 88.0', metricType: 'Possession Slot Depth', epa: -0.03, probImpact: -0.7, rating: 74, desc: 'Dependable veteran slot receiver and clutch possession target.' },
 
             // TIGHT ENDS
-            { id: 'laporta', num: 87, name: 'Sam LaPorta', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'YPRR 2.12 (95th)', metricType: 'All-Pro Matchup Nightmare', epa: 0.14, probImpact: 2.7, rating: 93, desc: 'First-team caliber tight end; surgical route runner through intermediate zones.' },
-            { id: 'wright', num: 89, name: 'Brock Wright', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Run Block 76.2 PFF', metricType: 'Physical Inline Y-TE', epa: 0.02, probImpact: 0.4, rating: 78, desc: 'Heavy-handed inline blocking tight end who anchors edge-seal runs.' },
-            { id: 'conklin', num: 81, name: 'Tyler Conklin', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Catch Rate 74.5%', metricType: 'Veteran Receiving TE', epa: 0.04, probImpact: 0.8, rating: 81, desc: 'Experienced Michigan-native veteran TE; reliable seam target in 12-personnel.' },
-            { id: 'meeks', num: 86, name: 'Jackson Meeks', pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Red Zone Frame 6-4', metricType: 'Developmental TE', epa: -0.03, probImpact: -0.8, rating: 72, desc: 'Physical young tight end.' },
+            { id: 'laporta', num: 87, name: 'Sam LaPorta', espnId: 4430027, pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'YPRR 2.12 (95th)', metricType: 'All-Pro Matchup Nightmare', epa: 0.14, probImpact: 2.7, rating: 93, desc: 'First-team caliber tight end; surgical route runner through intermediate zones.' },
+            { id: 'wright', num: 89, name: 'Brock Wright', espnId: 4241479, pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Run Block 76.2 PFF', metricType: 'Physical Inline Y-TE', epa: 0.02, probImpact: 0.4, rating: 78, desc: 'Heavy-handed inline blocking tight end who anchors edge-seal runs.' },
+            { id: 'conklin', num: 81, name: 'Tyler Conklin', espnId: 3054975, pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Catch Rate 74.5%', metricType: 'Veteran Receiving TE', epa: 0.04, probImpact: 0.8, rating: 81, desc: 'Experienced Michigan-native veteran TE; reliable seam target in 12-personnel.' },
+            { id: 'meeks', num: 86, name: 'Jackson Meeks', espnId: 4600645, pos: 'TE', unit: 'OFF', primaryPos: 'TE', metric: 'Red Zone Frame 6-4', metricType: 'Developmental TE', epa: -0.03, probImpact: -0.8, rating: 72, desc: 'Physical young tight end.' },
 
             // OFFENSIVE LINE
-            { id: 'sewell', num: 58, name: 'Penei Sewell', pos: 'OL', unit: 'OFF', primaryPos: 'LT', metric: 'PBWR 94.8% (99th)', metricType: 'Generational Blindside LT', epa: 0.16, probImpact: 3.2, rating: 98, desc: 'Shifted to LT to anchor Goff\'s blindside; pound-for-pound best offensive lineman in the NFL.' },
-            { id: 'mahogany', num: 73, name: 'Christian Mahogany', pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 89.4% (81st)', metricType: 'Mauling Interior Guard', epa: 0.06, probImpact: 1.3, rating: 83, desc: 'Physical, road-grading guard who drives defenders off the ball on inside zone.' },
-            { id: 'scruggs', num: 70, name: 'Juice Scruggs', pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 90.5% (85th)', metricType: 'Starting Center', epa: 0.07, probImpact: 1.5, rating: 85, desc: 'Anchors the pivot; communicates defensive fronts and handles interior bull rushes.' },
-            { id: 'ratledge', num: 64, name: 'Tate Ratledge', pos: 'OL', unit: 'OFF', primaryPos: 'RG', metric: 'PBWR 88.8% (79th)', metricType: 'Starting Right Guard', epa: 0.05, probImpact: 1.2, rating: 83, desc: 'Powerful interior pass protector with stout anchor against defensive tackles.' },
-            { id: 'miller', num: 71, name: 'Blake Miller', pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 87.2% (75th)', metricType: 'Starting Right Tackle', epa: 0.05, probImpact: 1.1, rating: 82, desc: 'Athletic right tackle with strong reach in wide-zone run concepts.' },
-            { id: 'frazier', num: 67, name: 'Miles Frazier', pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 83.0%', metricType: 'Interior OL Depth', epa: -0.03, probImpact: -0.7, rating: 75, desc: 'Reserve guard with good lateral movement.' },
-            { id: 'mclaughlin', num: 63, name: 'Seth McLaughlin', pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 82.5%', metricType: 'Backup Center', epa: -0.04, probImpact: -0.9, rating: 74, desc: 'Smart backup center capable of orchestrating line calls.' },
-            { id: 'borom', num: 75, name: 'Larry Borom', pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 83.8%', metricType: 'Veteran Swing Tackle', epa: -0.02, probImpact: -0.6, rating: 76, desc: 'Experienced tackle capable of stepping in on either side.' },
-            { id: 'bartch', num: 74, name: 'Ben Bartch', pos: 'OL', unit: 'OFF', primaryPos: 'RG', metric: 'PBWR 81.9%', metricType: 'Interior Depth', epa: -0.04, probImpact: -0.9, rating: 73, desc: 'Veteran interior swing lineman.' },
+            { id: 'sewell', num: 58, name: 'Penei Sewell', espnId: 4373825, pos: 'OL', unit: 'OFF', primaryPos: 'LT', metric: 'PBWR 94.8% (99th)', metricType: 'Generational Blindside LT', epa: 0.16, probImpact: 3.2, rating: 98, desc: 'Shifted to LT to anchor Goff\'s blindside; pound-for-pound best offensive lineman in the NFL.' },
+            { id: 'mahogany', num: 73, name: 'Christian Mahogany', espnId: 4430807, pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 89.4% (81st)', metricType: 'Mauling Interior Guard', epa: 0.06, probImpact: 1.3, rating: 83, desc: 'Physical, road-grading guard who drives defenders off the ball on inside zone.' },
+            { id: 'scruggs', num: 70, name: 'Juice Scruggs', espnId: 4361425, pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 90.5% (85th)', metricType: 'Starting Center', epa: 0.07, probImpact: 1.5, rating: 85, desc: 'Anchors the pivot; communicates defensive fronts and handles interior bull rushes.' },
+            { id: 'ratledge', num: 64, name: 'Tate Ratledge', espnId: 4430062, pos: 'OL', unit: 'OFF', primaryPos: 'RG', metric: 'PBWR 88.8% (79th)', metricType: 'Starting Right Guard', epa: 0.05, probImpact: 1.2, rating: 83, desc: 'Powerful interior pass protector with stout anchor against defensive tackles.' },
+            { id: 'miller', num: 71, name: 'Blake Miller', espnId: 4685178, pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 87.2% (75th)', metricType: 'Starting Right Tackle', epa: 0.05, probImpact: 1.1, rating: 82, desc: 'Athletic right tackle with strong reach in wide-zone run concepts.' },
+            { id: 'frazier', num: 67, name: 'Miles Frazier', espnId: 4683794, pos: 'OL', unit: 'OFF', primaryPos: 'LG', metric: 'PBWR 83.0%', metricType: 'Interior OL Depth', epa: -0.03, probImpact: -0.7, rating: 75, desc: 'Reserve guard with good lateral movement.' },
+            { id: 'mclaughlin', num: 63, name: 'Seth McLaughlin', espnId: 4429023, pos: 'OL', unit: 'OFF', primaryPos: 'C', metric: 'PBWR 82.5%', metricType: 'Backup Center', epa: -0.04, probImpact: -0.9, rating: 74, desc: 'Smart backup center capable of orchestrating line calls.' },
+            { id: 'borom', num: 75, name: 'Larry Borom', espnId: 4240920, pos: 'OL', unit: 'OFF', primaryPos: 'RT', metric: 'PBWR 83.8%', metricType: 'Veteran Swing Tackle', epa: -0.02, probImpact: -0.6, rating: 76, desc: 'Experienced tackle capable of stepping in on either side.' },
+            { id: 'bartch', num: 74, name: 'Ben Bartch', espnId: 4247545, pos: 'OL', unit: 'OFF', primaryPos: 'RG', metric: 'PBWR 81.9%', metricType: 'Interior Depth', epa: -0.04, probImpact: -0.9, rating: 73, desc: 'Veteran interior swing lineman.' },
 
             // DEFENSIVE LINE / EDGE
-            { id: 'hutchinson', num: 97, name: 'Aidan Hutchinson', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: '14.5 Sacks • PRWR 27.2% (99th)', metricType: 'All-Pro DPOY Anchor', epa: -0.16, probImpact: 3.5, rating: 97, desc: 'Superstar anchor of the defense; healthy All-Pro terror with an elite 27.2% pressure rate.' },
-            { id: 'wonnum', num: 95, name: 'D.J. Wonnum', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'Sack Leader • PRWR 19.8% (87th)', metricType: 'Starting EDGE Rusher', epa: -0.08, probImpact: 1.8, rating: 86, desc: 'Starting edge rusher opposite Hutchinson; explosive get-off and current Lions sack leader.' },
-            { id: 'mcneill', num: 54, name: 'Alim McNeill', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 14.8% (93rd)', metricType: '$97M Interior Anchor', epa: -0.11, probImpact: 2.4, rating: 92, desc: 'Franchise 3-technique DT; fully healthy, collapses the pocket and dominates interior gaps.' },
-            { id: 't_williams', num: 90, name: 'Tyleik Williams', pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'RSWR 88.5% (92nd)', metricType: 'Starting 1-Tech / Nose', epa: -0.08, probImpact: 1.7, rating: 85, desc: 'First-round rookie sensation; absorbs double-teams and stonewalls interior runs.' },
-            { id: 'd_moore', num: 56, name: 'Derrick Moore', pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'PRWR 16.2%', metricType: 'Rotational Pass Rusher', epa: -0.03, probImpact: 0.6, rating: 80, desc: 'Young power edge defender who rotates in on passing downs.' },
-            { id: 'wingo', num: 94, name: 'Mekhi Wingo', pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'Interior Burst 79.5', metricType: 'Interior Rotational DT', epa: -0.02, probImpact: 0.4, rating: 79, desc: 'Quick-twitch penetrator who disrupts spacing on third downs.' },
-            { id: 'onwuzurike', num: 91, name: 'Levi Onwuzurike', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 13.0%', metricType: 'Versatile Interior Rusher', epa: -0.02, probImpact: 0.5, rating: 80, desc: 'Subpackage rusher who can kick inside or align at 5-technique.' },
-            { id: 'lacy', num: 92, name: 'Tyler Lacy', pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'Run Stop 76.0', metricType: 'DL Depth', epa: 0.01, probImpact: -0.3, rating: 75, desc: 'Heavy rotational defender.' },
-            { id: 'oneill', num: 59, name: "Eric O'Neill", pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: 'Edge Speed 4.65', metricType: 'Speed Edge Depth', epa: 0.02, probImpact: -0.5, rating: 74, desc: 'Developmental edge speed rusher.' },
+            { id: 'hutchinson', num: 97, name: 'Aidan Hutchinson', espnId: 4372099, pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: '14.5 Sacks • PRWR 27.2% (99th)', metricType: 'All-Pro DPOY Anchor', epa: -0.16, probImpact: 3.5, rating: 97, desc: 'Superstar anchor of the defense; healthy All-Pro terror with an elite 27.2% pressure rate.' },
+            { id: 'wonnum', num: 95, name: 'D.J. Wonnum', espnId: 4038849, pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'Sack Leader • PRWR 19.8% (87th)', metricType: 'Starting EDGE Rusher', epa: -0.08, probImpact: 1.8, rating: 86, desc: 'Starting edge rusher opposite Hutchinson; explosive get-off and current Lions sack leader.' },
+            { id: 'mcneill', num: 54, name: 'Alim McNeill', espnId: 4379435, pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 14.8% (93rd)', metricType: '$97M Interior Anchor', epa: -0.11, probImpact: 2.4, rating: 92, desc: 'Franchise 3-technique DT; fully healthy, collapses the pocket and dominates interior gaps.' },
+            { id: 't_williams', num: 90, name: 'Tyleik Williams', espnId: 4431444, pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'RSWR 88.5% (92nd)', metricType: 'Starting 1-Tech / Nose', epa: -0.08, probImpact: 1.7, rating: 85, desc: 'First-round rookie sensation; absorbs double-teams and stonewalls interior runs.' },
+            { id: 'd_moore', num: 56, name: 'Derrick Moore', espnId: 4685121, pos: 'DL', unit: 'DEF', primaryPos: 'EDGE2', metric: 'PRWR 16.2%', metricType: 'Rotational Pass Rusher', epa: -0.03, probImpact: 0.6, rating: 80, desc: 'Young power edge defender who rotates in on passing downs.' },
+            { id: 'wingo', num: 94, name: 'Mekhi Wingo', espnId: 4685718, pos: 'DL', unit: 'DEF', primaryPos: 'DT2', metric: 'Interior Burst 79.5', metricType: 'Interior Rotational DT', epa: -0.02, probImpact: 0.4, rating: 79, desc: 'Quick-twitch penetrator who disrupts spacing on third downs.' },
+            { id: 'onwuzurike', num: 91, name: 'Levi Onwuzurike', espnId: 4035670, pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'PRWR 13.0%', metricType: 'Versatile Interior Rusher', epa: -0.02, probImpact: 0.5, rating: 80, desc: 'Subpackage rusher who can kick inside or align at 5-technique.' },
+            { id: 'lacy', num: 92, name: 'Tyler Lacy', espnId: 4361814, pos: 'DL', unit: 'DEF', primaryPos: 'DT1', metric: 'Run Stop 76.0', metricType: 'DL Depth', epa: 0.01, probImpact: -0.3, rating: 75, desc: 'Heavy rotational defender.' },
+            { id: 'oneill', num: 59, name: "Eric O'Neill", espnId: 5150821, pos: 'DL', unit: 'DEF', primaryPos: 'EDGE1', metric: 'Edge Speed 4.65', metricType: 'Speed Edge Depth', epa: 0.02, probImpact: -0.5, rating: 74, desc: 'Developmental edge speed rusher.' },
 
             // LINEBACKERS
-            { id: 'campbell', num: 46, name: 'Jack Campbell', pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'Tackle Eff 86.8% (91st)', metricType: 'Green-Dot Captain / Mike', epa: -0.09, probImpact: 2.1, rating: 90, desc: 'Defensive green-dot play-caller; sideline-to-sideline run stopper with elite tackling efficiency.' },
-            { id: 'barnes', num: 55, name: 'Derrick Barnes', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Coverage PFF 81.2 (83rd)', metricType: 'Starting Will Linebacker', epa: -0.07, probImpact: 1.6, rating: 85, desc: 'Explosive downhill linebacker; excels shooting gaps and matching up in flats.' },
-            { id: 'rodriguez', num: 44, name: 'Malcolm Rodriguez', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Run Stop Rate 9.8%', metricType: 'Downhill Thumper', epa: -0.03, probImpact: 0.6, rating: 81, desc: 'Fan-favorite instinctive linebacker who blows up lead blocks.' },
-            { id: 'nowaske', num: 43, name: 'Trevor Nowaske', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Coverage PFF 75.0', metricType: 'LB Depth / Coverage', epa: -0.01, probImpact: 0.1, rating: 77, desc: 'Athletic linebacker specializing in coverage and pass defense.' },
-            { id: 'rolder', num: 48, name: 'Jimmy Rolder', pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'Tackle Grade 74.0', metricType: 'Backup Mike LB', epa: 0.02, probImpact: -0.4, rating: 74, desc: 'Interior run-stopping depth.' },
-            { id: 'ogbongbemiga', num: 41, name: 'Amen Ogbongbemiga', pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'ST Tackle Leader', metricType: 'Special Teams Ace / LB', epa: -0.01, probImpact: 0.1, rating: 76, desc: 'Core special teams ace and situational linebacker.' },
+            { id: 'campbell', num: 46, name: 'Jack Campbell', espnId: 4429733, pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'Tackle Eff 86.8% (91st)', metricType: 'Green-Dot Captain / Mike', epa: -0.09, probImpact: 2.1, rating: 90, desc: 'Defensive green-dot play-caller; sideline-to-sideline run stopper with elite tackling efficiency.' },
+            { id: 'barnes', num: 55, name: 'Derrick Barnes', espnId: 4260409, pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Coverage PFF 81.2 (83rd)', metricType: 'Starting Will Linebacker', epa: -0.07, probImpact: 1.6, rating: 85, desc: 'Explosive downhill linebacker; excels shooting gaps and matching up in flats.' },
+            { id: 'rodriguez', num: 44, name: 'Malcolm Rodriguez', espnId: 4241411, pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Run Stop Rate 9.8%', metricType: 'Downhill Thumper', epa: -0.03, probImpact: 0.6, rating: 81, desc: 'Fan-favorite instinctive linebacker who blows up lead blocks.' },
+            { id: 'nowaske', num: 43, name: 'Trevor Nowaske', espnId: 4258169, pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'Coverage PFF 75.0', metricType: 'LB Depth / Coverage', epa: -0.01, probImpact: 0.1, rating: 77, desc: 'Athletic linebacker specializing in coverage and pass defense.' },
+            { id: 'rolder', num: 48, name: 'Jimmy Rolder', espnId: 4685237, pos: 'LB', unit: 'DEF', primaryPos: 'MLB', metric: 'Tackle Grade 74.0', metricType: 'Backup Mike LB', epa: 0.02, probImpact: -0.4, rating: 74, desc: 'Interior run-stopping depth.' },
+            { id: 'ogbongbemiga', num: 41, name: 'Amen Ogbongbemiga', espnId: 4038890, pos: 'LB', unit: 'DEF', primaryPos: 'WLB', metric: 'ST Tackle Leader', metricType: 'Special Teams Ace / LB', epa: -0.01, probImpact: 0.1, rating: 76, desc: 'Core special teams ace and situational linebacker.' },
 
             // CORNERBACKS
-            { id: 'reed', num: 2, name: 'D.J. Reed', pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Passer Rtg Allowed 62.4 (92nd)', metricType: 'Lockdown Perimeter CB1', epa: -0.11, probImpact: 2.4, rating: 90, desc: 'Elite shutdown corner; blankets opposing WR1s and locks down the boundary.' },
-            { id: 'rakestraw', num: 15, name: 'Ennis Rakestraw Jr.', pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Press Win Rate 84.5% (86th)', metricType: 'Starting Press CB2', epa: -0.07, probImpact: 1.6, rating: 85, desc: 'Physical, feisty press-man cornerback who disrupts timing at the line of scrimmage.' },
-            { id: 'mccreary', num: 21, name: 'Roger McCreary', pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Slot Passer Rtg 66.8 (88th)', metricType: 'Starting Nickel Enforcer', epa: -0.08, probImpact: 1.8, rating: 87, desc: 'Premier nickel corner with quick-closing burst and stout open-field tackling in the slot.' },
-            { id: 'ya_sin', num: 24, name: 'Rock Ya-Sin', pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Contested Catch % 32%', metricType: 'Veteran Boundary CB', epa: -0.03, probImpact: 0.6, rating: 80, desc: 'Experienced outside cornerback providing veteran coverage depth.' },
-            { id: 'dorsey', num: 30, name: 'Khalil Dorsey', pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Speed 4.38s • Gunner', metricType: 'CB Depth / Returner', epa: 0.01, probImpact: -0.2, rating: 76, desc: 'Blazing speed depth cornerback and kick returner.' },
-            { id: 'abney', num: 39, name: 'Keith Abney II', pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Coverage PFF 72.0', metricType: 'Rookie CB Depth', epa: 0.02, probImpact: -0.5, rating: 74, desc: 'Young developmental corner.' },
+            { id: 'reed', num: 2, name: 'D.J. Reed', espnId: 3120155, pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Passer Rtg Allowed 62.4 (92nd)', metricType: 'Lockdown Perimeter CB1', epa: -0.11, probImpact: 2.4, rating: 90, desc: 'Elite shutdown corner; blankets opposing WR1s and locks down the boundary.' },
+            { id: 'rakestraw', num: 15, name: 'Ennis Rakestraw Jr.', espnId: 4566092, pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Press Win Rate 84.5% (86th)', metricType: 'Starting Press CB2', epa: -0.07, probImpact: 1.6, rating: 85, desc: 'Physical, feisty press-man cornerback who disrupts timing at the line of scrimmage.' },
+            { id: 'mccreary', num: 21, name: 'Roger McCreary', espnId: 4371973, pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Slot Passer Rtg 66.8 (88th)', metricType: 'Starting Nickel Enforcer', epa: -0.08, probImpact: 1.8, rating: 87, desc: 'Premier nickel corner with quick-closing burst and stout open-field tackling in the slot.' },
+            { id: 'ya_sin', num: 24, name: 'Rock Ya-Sin', espnId: 4243389, pos: 'DB', unit: 'DEF', primaryPos: 'CB1', metric: 'Contested Catch % 32%', metricType: 'Veteran Boundary CB', epa: -0.03, probImpact: 0.6, rating: 80, desc: 'Experienced outside cornerback providing veteran coverage depth.' },
+            { id: 'dorsey', num: 30, name: 'Khalil Dorsey', espnId: 4040605, pos: 'DB', unit: 'DEF', primaryPos: 'CB2', metric: 'Speed 4.38s • Gunner', metricType: 'CB Depth / Returner', epa: 0.01, probImpact: -0.2, rating: 76, desc: 'Blazing speed depth cornerback and kick returner.' },
+            { id: 'abney', num: 39, name: 'Keith Abney II', espnId: 5081829, pos: 'DB', unit: 'DEF', primaryPos: 'NB', metric: 'Coverage PFF 72.0', metricType: 'Rookie CB Depth', epa: 0.02, probImpact: -0.5, rating: 74, desc: 'Young developmental corner.' },
 
             // SAFETIES
-            { id: 'clark', num: 36, name: 'Chuck Clark', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: 'Passer Rtg Allowed 68.2 (86th)', metricType: 'Starting Free Safety', epa: -0.08, probImpact: 1.7, rating: 86, desc: 'Veteran centerfield leader who stabilizes deep coverages with great communication.' },
-            { id: 'izien', num: 27, name: 'Christian Izien', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Stop Rate 8.4% (82nd)', metricType: 'Starting Strong Safety', epa: -0.06, probImpact: 1.4, rating: 84, desc: 'Hard-hitting strong safety with slot versatility and aggressive run support.' },
-            { id: 'branch', num: 32, name: 'Brian Branch', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'All-Pro • Practice Window Activated', metricType: 'Superstar DB (Return Looming)', epa: -0.15, probImpact: 3.2, rating: 96, desc: 'First-team All-Pro superstar safety/nickel; 21-day practice window open following Achilles recovery.' },
-            { id: 'k_joseph', num: 31, name: 'Kerby Joseph', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: '9 INT All-Pro • Reserve/PUP', metricType: 'All-Pro Ballhawk (PUP)', epa: -0.12, probImpact: 2.6, rating: 92, desc: 'Ballhawk safety who led NFL in INTs; completing rehab from knee injury, expected back in 2026.' },
-            { id: 'fitzgerald', num: 28, name: 'Bishop Fitzgerald', pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: 'Coverage PFF 73.5', metricType: 'Backup Safety', epa: 0.01, probImpact: -0.2, rating: 76, desc: 'Rangy backup deep safety.' },
-            { id: 'harper', num: 29, name: 'Thomas Harper', pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Box Tackle 74.0', metricType: 'Safety Depth', epa: 0.01, probImpact: -0.3, rating: 75, desc: 'Situational box safety.' }
+            { id: 'clark', num: 36, name: 'Chuck Clark', espnId: 3045463, pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: 'Passer Rtg Allowed 68.2 (86th)', metricType: 'Starting Free Safety', epa: -0.08, probImpact: 1.7, rating: 86, desc: 'Veteran centerfield leader who stabilizes deep coverages with great communication.' },
+            { id: 'izien', num: 27, name: 'Christian Izien', espnId: 4372459, pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Stop Rate 8.4% (82nd)', metricType: 'Starting Strong Safety', epa: -0.06, probImpact: 1.4, rating: 84, desc: 'Hard-hitting strong safety with slot versatility and aggressive run support.' },
+            { id: 'branch', num: 32, name: 'Brian Branch', espnId: 4692025, pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'All-Pro • Practice Window Activated', metricType: 'Superstar DB (Return Looming)', epa: -0.15, probImpact: 3.2, rating: 96, desc: 'First-team All-Pro superstar safety/nickel; 21-day practice window open following Achilles recovery.' },
+            { id: 'k_joseph', num: 31, name: 'Kerby Joseph', espnId: 4360383, pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: '9 INT All-Pro • Reserve/PUP', metricType: 'All-Pro Ballhawk (PUP)', epa: -0.12, probImpact: 2.6, rating: 92, desc: 'Ballhawk safety who led NFL in INTs; completing rehab from knee injury, expected back in 2026.' },
+            { id: 'fitzgerald', num: 28, name: 'Bishop Fitzgerald', espnId: 4884242, pos: 'DB', unit: 'DEF', primaryPos: 'FS', metric: 'Coverage PFF 73.5', metricType: 'Backup Safety', epa: 0.01, probImpact: -0.2, rating: 76, desc: 'Rangy backup deep safety.' },
+            { id: 'harper', num: 29, name: 'Thomas Harper', espnId: 4427438, pos: 'DB', unit: 'DEF', primaryPos: 'SS', metric: 'Box Tackle 74.0', metricType: 'Safety Depth', epa: 0.01, probImpact: -0.3, rating: 75, desc: 'Situational box safety.' }
         ];
 
         const defaultStartingSlots = {
@@ -3203,35 +3333,46 @@
                     const player = pid ? getPlayerById(pid) : null;
 
                     if (player) {
-                        const isPosMatch = slot.allowed.includes(player.pos);
+                        const headshotUrl = player.espnId ? `https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${player.espnId}.png&w=120&h=86&cb=1` : '';
                         return `
                             <div class="lineup-slot" id="slot-${slot.id}" data-slot-id="${slot.id}"
                                  ondragover="onSlotDragOver(event, '${slot.id}')"
                                  ondragleave="onSlotDragLeave(event, '${slot.id}')"
                                  ondrop="onSlotDrop(event, '${slot.id}')"
                                  onclick="handleSlotClick('${slot.id}')"
-                                 title="${slot.fullLabel}">
+                                 title="${slot.fullLabel}: ${player.name} (${player.metric})">
                                 <div class="slot-header">
                                     <span class="slot-pos-tag">${slot.label}</span>
-                                    <span class="slot-impact-tag ${player.probImpact >= 0 ? '' : 'penalty'}">
-                                        ${player.probImpact >= 0 ? '+' : ''}${player.probImpact.toFixed(1)}%
-                                    </span>
+                                    <div class="slot-header-right">
+                                        <span class="slot-impact-tag ${player.probImpact >= 0 ? '' : 'penalty'}">
+                                            ${player.probImpact >= 0 ? '+' : ''}${player.probImpact.toFixed(1)}%
+                                        </span>
+                                        <button class="bench-btn" onclick="event.stopPropagation(); benchPlayerInSlot('${slot.id}')" title="Bench player">✕</button>
+                                    </div>
                                 </div>
                                 <div class="starter-card" draggable="true"
                                      ondragstart="onPlayerDragStart(event, '${player.id}')"
                                      ondragend="onPlayerDragEnd(event)">
-                                    <div class="starter-num ${player.unit === 'DEF' ? 'def-num' : ''}">${player.num}</div>
-                                    <div class="starter-meta">
-                                        <div class="starter-name">${player.name}</div>
-                                        <div class="starter-metric">${player.metric.split(' ')[0]} ${player.metric.split(' ')[1] || ''}</div>
+                                    <div class="starter-avatar-wrap">
+                                        ${headshotUrl ? `
+                                            <img class="starter-headshot" src="${headshotUrl}" alt="${player.name}" loading="lazy"
+                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        ` : ''}
+                                        <div class="starter-avatar-fallback ${player.unit === 'DEF' ? 'def-fallback' : ''}" style="${headshotUrl ? 'display:none;' : 'display:flex;'}">
+                                            <span>#${player.num}</span>
+                                        </div>
+                                        <span class="starter-num-badge ${player.unit === 'DEF' ? 'def-badge' : ''}">${player.num}</span>
                                     </div>
-                                    <button class="bench-btn" onclick="event.stopPropagation(); benchPlayerInSlot('${slot.id}')" title="Bench player">✕</button>
+                                    <div class="starter-meta">
+                                        <div class="starter-name" title="${player.name}">${player.name}</div>
+                                        <div class="starter-metric-pill" title="${player.metric}">${player.metric.split(' • ')[0]}</div>
+                                    </div>
                                 </div>
                             </div>
                         `;
                     } else {
                         return `
-                            <div class="lineup-slot" id="slot-${slot.id}" data-slot-id="${slot.id}"
+                            <div class="lineup-slot empty-slot" id="slot-${slot.id}" data-slot-id="${slot.id}"
                                  ondragover="onSlotDragOver(event, '${slot.id}')"
                                  ondragleave="onSlotDragLeave(event, '${slot.id}')"
                                  ondrop="onSlotDrop(event, '${slot.id}')"
@@ -3242,8 +3383,9 @@
                                     <span class="slot-impact-tag penalty">-2.8%</span>
                                 </div>
                                 <div class="empty-slot-content">
-                                    <div class="empty-slot-text">+ Drop Starter</div>
-                                    <div class="empty-slot-penalty">Unfilled Spot</div>
+                                    <div class="empty-slot-icon">+</div>
+                                    <div class="empty-slot-text">Assign Starter</div>
+                                    <div class="empty-slot-penalty">Empty (-2.8%)</div>
                                 </div>
                             </div>
                         `;
@@ -3288,6 +3430,7 @@
                 const assignedSlot = getSlotOfPlayer(player.id);
                 const isStarter = assignedSlot !== null;
                 const isSelected = selectedPlayerId === player.id;
+                const headshotUrl = player.espnId ? `https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${player.espnId}.png&w=120&h=86&cb=1` : '';
 
                 return `
                     <div class="roster-card ${isStarter ? 'is-starter' : ''} ${isSelected ? 'selected-player' : ''}"
@@ -3296,7 +3439,16 @@
                          ondragstart="onPlayerDragStart(event, '${player.id}')"
                          ondragend="onPlayerDragEnd(event)"
                          onclick="selectRosterPlayer('${player.id}')">
-                        <div class="roster-card-num ${player.unit === 'DEF' ? 'def-num' : ''}">${player.num}</div>
+                        <div class="roster-avatar-wrap">
+                            ${headshotUrl ? `
+                                <img class="roster-headshot" src="${headshotUrl}" alt="${player.name}" loading="lazy"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            ` : ''}
+                            <div class="roster-avatar-fallback ${player.unit === 'DEF' ? 'def-fallback' : ''}" style="${headshotUrl ? 'display:none;' : 'display:flex;'}">
+                                <span>#${player.num}</span>
+                            </div>
+                            <span class="roster-num-badge ${player.unit === 'DEF' ? 'def-badge' : ''}">${player.num}</span>
+                        </div>
                         <div class="roster-card-main">
                             <div class="roster-card-title-row">
                                 <span class="roster-card-name">${player.name}</span>
@@ -3314,7 +3466,6 @@
                 `;
             }).join('');
         }
-
         // ====================================================
         // INTERACTION & DRAG-AND-DROP HANDLERS
         // ====================================================
